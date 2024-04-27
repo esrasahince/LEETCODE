@@ -1,29 +1,32 @@
 public class Solution {
     public int ClimbStairs(int n) {
-        Dictionary<int,int> memo=new();
-        return BottomUp(n,memo);
+
+       
+
+
+       
+        return BottomUp(n);
         
     }
 
-    public int BottomUp(int n, Dictionary<int,int> memo)
+    public int BottomUp(int n)
     {
-        if(n==0)
-        { 
-           return 1;
-        }
-        if(n<0)
-        {
-            return 0;
-        }
-        
+        //TABULARATION
+         int[] target=new int[n+1];
 
-        if(memo.ContainsKey(n))
-        return memo[n];
+         //BASE CASES
+            target[n]=1;
+            target[n-1]=1;
 
-        var result= BottomUp(n-1,memo)+BottomUp(n-2,memo);
-        memo[n]=result;
-        return result;
+         //FOR LOOP
+         for(int i=n-2;i>=0;i--)
+         {
+            target[i]=target[i+1]+target[i+2];
+
+         }
+         return target[0];
 
     }
+
 
 }
