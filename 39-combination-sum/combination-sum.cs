@@ -1,32 +1,27 @@
 public class Solution {
     public IList<IList<int>> CombinationSum(int[] candidates, int target) {
-            List<List<List<int>>> sum = new List<List<List<int>>>();
-        
-        // Initialize the sum list with empty lists
-        for (int i = 0; i <= target; i++) {
-            sum.Add(new List<List<int>>());
+               List<IList<int>>[] total = new List<IList<int>>[target + 1];
+        for(int k=0;k<target+1;k++)
+        {
+            total[k] = new List<IList<int>>();
         }
+      total[0].Add(new List<int>());
         
-        // Base case: There's one way to get a sum of 0
-        sum[0].Add(new List<int>());
-
-        // Iterate through each candidate and fill the sum list
-        foreach (int item in candidates) {
-            for (int i = item; i <= target; i++) {
-                foreach (var subset in sum[i - item]) {
-                    var temp = new List<int>(subset); // Make a copy of the subset
+        foreach(int item in candidates)
+        {
+            for(int i=item;i<target+1;i++)
+            {
+                
+                foreach(var subset in total[i-item])
+                {
+                    var temp = new List<int>(subset);
                     temp.Add(item);
-                    sum[i].Add(temp);
+                    total[i].Add(temp);
                 }
+               
             }
         }
-        
-    IList<IList<int>> result = new List<IList<int>>();
-        foreach (var list in sum[target]) {
-            result.Add(list);
-        }
-        
-        return result;
-        
-    }
+
+        return total[target];
+}
 }
