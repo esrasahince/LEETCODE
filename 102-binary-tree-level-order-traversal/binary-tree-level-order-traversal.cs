@@ -17,34 +17,31 @@ public class Solution {
         if(root==null)
         return result;
 
-        Queue<(TreeNode,int)> queue=new();
-        queue.Enqueue((root,0));
+        Queue<TreeNode> queue=new();
+        queue.Enqueue(root);
       
-        int maxlevel=0;
-      
-     
+
         while(queue.Count>0)
         {
-            var item=queue.Dequeue();
-            TreeNode node=item.Item1;
-            int level=item.Item2;
-
-            maxlevel=Math.Max(level,maxlevel);
-            if(result.Count<=maxlevel)
+            List<int> temp=new();
+            int count=queue.Count;
+            for(int i=0;i<count;i++)
             {
-                result.Add(new List<int>());
-            }
-            result[level].Add(node.val);
+            var node=queue.Dequeue();
+            temp.Add(node.val);
             if(node.left!=null)
             {
-                queue.Enqueue((node.left,level+1));
+                queue.Enqueue(node.left);
              
             }
               if(node.right!=null)
             {
-                queue.Enqueue((node.right,level+1));
+                queue.Enqueue(node.right);
                 
             }
+            }
+        
+            result.Add(temp);
           
         }
    
