@@ -15,30 +15,29 @@ public class Solution {
     public bool IsBalanced(TreeNode root) {
         if(root==null)
         return true;
-     var result=DFSHeight(root);
-     Console.WriteLine(result);
-     if(result!=-1)
-     return true;
-     else return false;
+        bool result=true;
+        DFSHeight(root,ref result);
+        return result;
+
+
+     
         
     }
 
-    public int DFSHeight(TreeNode root)
+    public int DFSHeight(TreeNode root,ref bool result)
     {
         if(root==null)
         return 1;
-        int leftheight=DFSHeight(root.left);
-        int rightheight=DFSHeight(root.right);
-
-        if(leftheight==-1||rightheight==-1)
-        return -1;
-
+        int leftheight=DFSHeight(root.left,ref result);
+        int rightheight=DFSHeight(root.right,ref result);
 
         if(Math.Abs(leftheight-rightheight)>1)
-        return -1;
+        result=false;
 
-        return 1+Math.Max(DFSHeight(root.left),DFSHeight(root.right));
-        
+        return 1+Math.Max(leftheight,rightheight);
+
+
+       
        
     }
      
