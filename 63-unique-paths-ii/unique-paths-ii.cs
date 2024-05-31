@@ -16,13 +16,13 @@ public class Solution {
    
        
         Dictionary<(int,int),int> memo=new();
-        int pathcount=0;
-        DP(obstacleGrid,0,0, ref pathcount,row,column,memo);
-        return pathcount;
+
+        return DP(obstacleGrid,0,0,row,column,memo);
+       
 
     }
 
-    public int DP(int[][] matrix,int row,int column,ref int count,int rowsize,int columnsize,Dictionary<(int,int),int> memo)
+    public int DP(int[][] matrix,int row,int column,int rowsize,int columnsize,Dictionary<(int,int),int> memo)
     {
       if (row >= rowsize || column >= columnsize||matrix[row][column] == 1)
         {
@@ -42,13 +42,13 @@ public class Solution {
         }
 
 
-        int rightPaths=DP(matrix, row + 1, column, ref count, rowsize, columnsize, memo);
-        int downPaths=DP(matrix, row, column + 1, ref count, rowsize, columnsize, memo);
+        int rightPaths=DP(matrix, row + 1, column,  rowsize, columnsize, memo);
+        int downPaths=DP(matrix, row, column + 1,  rowsize, columnsize, memo);
         memo[(row, column)] = rightPaths+downPaths;
-        count=rightPaths+downPaths;
+     
 
 
-        return count;
+        return memo[(row, column)] ;
         
         
     }
