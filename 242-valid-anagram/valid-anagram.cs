@@ -1,5 +1,8 @@
 public class Solution {
     public bool IsAnagram(string s, string t) {
+        if (s.Length != t.Length) {
+            return false;
+        }
 
         Char[] s1=s.ToCharArray();
         Char[] t1=t.ToCharArray();
