@@ -1,21 +1,13 @@
 public class Solution {
     public bool IsAnagram(string s, string t) {
-        if (s.Length != t.Length) {
-            return false;
-        }
-
-        Char[] s1=s.ToCharArray();
-        Char[] t1=t.ToCharArray();
-        Array.Sort(s1);
-        Array.Sort(t1);
-
-        
-       String snew= new String(s1);
-       String tnew= new String(t1);
-
-        if(snew==tnew)
-        return true;
+        if(s.Length!=t.Length)
         return false;
         
+    int[] frequences=new int[26];
+    for(int i=0;i<s.Length;i++)
+    {
+        frequences[s[i]-'a']++;
+        frequences[t[i]-'a']--;
     }
-}
+    return frequences.All(x=>x==0);
+}}
