@@ -14,35 +14,38 @@ public class MyQueue {
     }
     
     public int Pop() {
-        int returnval=-1;
+      
+        if(queue.Count>0)
+        return queue.Pop();
+        else
+        {
         while(stack.Count>0)
         {
             queue.Push(stack.Pop());
         }
         if(queue.Count>0)
-        returnval=queue.Pop();
-        while(queue.Count>0)
-        {
-            stack.Push(queue.Pop());
+        return queue.Pop();
         }
-       
-       return returnval;
+  
+       return -1;
         
     }
     
     public int Peek() {
-        int returnval=-1;
+       if(queue.Count>0)
+        return queue.Peek();
+        else
+        {
         while(stack.Count>0)
         {
             queue.Push(stack.Pop());
         }
         if(queue.Count>0)
-        returnval=queue.Peek();
-         while(queue.Count>0)
-        {
-            stack.Push(queue.Pop());
+        return queue.Peek();
         }
-       return returnval;
+  
+       return -1;
+        
         
     }
     
