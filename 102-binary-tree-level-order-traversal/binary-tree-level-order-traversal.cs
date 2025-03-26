@@ -13,39 +13,48 @@
  */
 public class Solution {
     public IList<IList<int>> LevelOrder(TreeNode root) {
-        List<IList<int>> result=new();
+         List<IList<int>> result=new();
         if(root==null)
         return result;
-
-        Queue<TreeNode> queue=new();
-        queue.Enqueue(root);
-      
-
-        while(queue.Count>0)
+        if(root.left==null&&root.right==null)
         {
-            List<int> temp=new();
-            int count=queue.Count;
-            for(int i=0;i<count;i++)
-            {
-            var node=queue.Dequeue();
-            temp.Add(node.val);
-            if(node.left!=null)
-            {
-                queue.Enqueue(node.left);
-             
-            }
-              if(node.right!=null)
-            {
-                queue.Enqueue(node.right);
-                
-            }
-            }
-        
-            result.Add(temp);
-          
+        result.Add(new List<int>{root.val});
+         return result;
         }
-   
+        DFS(root,result);
         return result;
         
+    }
+
+    public void DFS(TreeNode root, List<IList<int>> result)
+  
+    {
+        Queue<(TreeNode,int)> que=new();
+        que.Enqueue((root,0));
+        
+
+        while(que.Count>0)
+        {
+            var (current, level) = que.Dequeue(); 
+            
+            if (result.Count <= level) {
+                result.Add(new List<int>());
+            }
+    
+            result[level].Add(current.val);
+            level++;
+
+
+            if(current.left!=null)
+            {  
+                que.Enqueue((current.left,level));
+            }
+             if(current.right!=null)
+            {  
+                que.Enqueue((current.right,level));
+            }
+            
+        }
+
     }
 }
