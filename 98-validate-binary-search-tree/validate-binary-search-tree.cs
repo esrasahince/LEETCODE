@@ -13,35 +13,32 @@
  */
 public class Solution {
     public bool IsValidBST(TreeNode root) {
-        bool result=true;
-        Stack<int> stack=new();
-        check(root,ref result,stack);
-        return result;
-    }
-    public void check(TreeNode root,ref bool result,Stack<int> stack)
-    {
-        if(root==null)
-          return;
+       int? min=null;
 
-       if(root.left!=null)
-        {
-            check(root.left,ref result,stack);
-        }
-        if(stack.Count>0)
-        {
-        if(stack.Pop()>=root.val)
-        result=false;
-        }
-        stack.Push(root.val);
-                                                                           
-         if(root.right!=null)
+        return InOrderTraversal(root,ref min);
+
+        
+    }
+    public bool InOrderTraversal(TreeNode current,ref int? last)
+    {
+        if(current==null)
+        return true;
+
+        if(!InOrderTraversal(current.left,ref last))
+        return false;
+
+        if(last.HasValue&&current.val<=last)
         {
          
-            check(root.right,ref result,stack);
+          return false;
         }
+        last=current.val;
         
+        if(!InOrderTraversal(current.right,ref last))
+        return false;
 
-    
-        
+       return true;
+
+
     }
 }
