@@ -13,33 +13,35 @@
  */
 public class Solution {
     public bool IsBalanced(TreeNode root) {
-        if(root==null)
-        return true;
-        bool result=true;
-        DFSHeight(root,ref result);
+        bool result = true;
+        DFS(root, 0, ref result);
         return result;
-
-
-     
+    }
+    
+    private int DFS(TreeNode current, int level, ref bool result) {
+        // Base case: null node
+        if (current == null)
+            return 0;
         
+        // Recursively check left subtree
+        int left = DFS(current.left, level + 1, ref result);
+        
+        // If already unbalanced, stop further processing
+        if (!result)
+            return 0;
+        
+        // Recursively check right subtree
+        int right = DFS(current.right, level + 1, ref result);
+        
+        // If already unbalanced, stop further processing
+        if (!result)
+            return 0;
+        
+        // Check balance condition
+        result = Math.Abs(left - right) <= 1;
+        
+        // Return the maximum height
+        return Math.Max(left, right) + 1;
     }
 
-    public int DFSHeight(TreeNode root,ref bool result)
-    {
-        if(root==null)
-        return 1;
-        int leftheight=DFSHeight(root.left,ref result);
-        int rightheight=DFSHeight(root.right,ref result);
-
-        if(Math.Abs(leftheight-rightheight)>1)
-        result=false;
-
-        return 1+Math.Max(leftheight,rightheight);
-
-
-       
-       
-    }
-     
-  
 }
