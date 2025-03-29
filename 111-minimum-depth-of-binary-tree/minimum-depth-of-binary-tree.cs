@@ -21,14 +21,14 @@ public class Solution {
 
         
     }
-    public int DFS(TreeNode current,int level, ref int result)
+    public void DFS(TreeNode current,int level, ref int result)
     {
         if(current==null)
-        return level;
+        return;
         if(current.left==null&&current.right==null)
         result=Math.Min(level,result);
-        int left=DFS(current.left,level+1,ref result);
-        int right=DFS(current.right,level+1,ref result);
-        return Math.Max(left,right);
+        DFS(current.left,level+1,ref result);
+        DFS(current.right,level+1,ref result);
+       
     }
 }
