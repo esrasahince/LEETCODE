@@ -15,23 +15,29 @@ public class Solution {
     public int MinDepth(TreeNode root) {
         if(root==null)
         return 0;
-        int result=int.MaxValue;
-         DFS(root,1,ref result);
-         return result;
-
+        return BFS(root);
         
     }
-    public void DFS(TreeNode current,int level, ref int result)
+    public int BFS(TreeNode root)
     {
-        if(current==null)
-        return;
-        if(current.left==null&&current.right==null)
+        Queue<(TreeNode,int)> que=new();
+        que.Enqueue((root,1));
+        while(que.Count>0)
         {
-         result=Math.Min(level,result);
-         return;
+            var (current,level)=que.Dequeue();
+            if(current.left==null&&current.right==null)
+            return level;
+
+            if(current.left!=null)
+            {
+                que.Enqueue((current.left,level+1));
+
+            }
+            if(current.right!=null)
+            {
+                que.Enqueue((current.right,level+1));
+            }
         }
-        DFS(current.left,level+1,ref result);
-        DFS(current.right,level+1,ref result);
-       
+        return 0;
     }
 }
