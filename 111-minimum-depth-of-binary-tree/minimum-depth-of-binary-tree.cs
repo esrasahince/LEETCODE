@@ -26,7 +26,10 @@ public class Solution {
         if(current==null)
         return;
         if(current.left==null&&current.right==null)
-        result=Math.Min(level,result);
+        {
+         result=Math.Min(level,result);
+         return;
+        }
         DFS(current.left,level+1,ref result);
         DFS(current.right,level+1,ref result);
        
