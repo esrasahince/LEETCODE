@@ -12,49 +12,34 @@
  * }
  */
 public class Solution {
+    List<IList<int>> result=new();
     public IList<IList<int>> LevelOrder(TreeNode root) {
-         List<IList<int>> result=new();
-        if(root==null)
+        
+
+        BFS(root);
         return result;
-        if(root.left==null&&root.right==null)
-        {
-        result.Add(new List<int>{root.val});
-         return result;
-        }
-        DFS(root,result);
-        return result;
+
         
     }
-
-    public void DFS(TreeNode root, List<IList<int>> result)
-  
+    public void BFS(TreeNode current)
     {
+        if(current==null)
+        return;
         Queue<(TreeNode,int)> que=new();
-        que.Enqueue((root,0));
-        
-
+        que.Enqueue((current,0));
+       
         while(que.Count>0)
         {
-            var (current, level) = que.Dequeue(); 
-            
-            if (result.Count <= level) {
+            var (node,level)=que.Dequeue();
+            if(result.Count==level)
+            {
                 result.Add(new List<int>());
             }
-    
-            result[level].Add(current.val);
-            level++;
-
-
-            if(current.left!=null)
-            {  
-                que.Enqueue((current.left,level));
-            }
-             if(current.right!=null)
-            {  
-                que.Enqueue((current.right,level));
-            }
-            
-        }
-
+            result[level].Add(node.val);
+            if(node.left!=null)
+            que.Enqueue((node.left,level+1));
+            if(node.right!=null)
+            que.Enqueue((node.right,level+1));
+        } 
     }
 }
