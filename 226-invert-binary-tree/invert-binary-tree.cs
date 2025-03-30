@@ -15,11 +15,8 @@ public class Solution {
     public TreeNode InvertTree(TreeNode root) {
         if(root==null)
         return root;
-
         BFS(root);
         return root;
-    
-
         
     }
     public void BFS(TreeNode root)
@@ -29,22 +26,20 @@ public class Solution {
         while(que.Count>0)
         {
             TreeNode current=que.Dequeue();
-            TreeNode templeft=null;
-            TreeNode tempright=null;
+        
 
             if(current.left!=null)
             {
-                templeft=current.left;
+              
                 que.Enqueue(current.left);
         
             }
             if(current.right!=null)
             {
-                tempright=current.right;
+          
                 que.Enqueue(current.right);
             }
-             current.right=templeft;
-             current.left=tempright;
+           (current.left,current.right)=(current.right,current.left);
             
         }
     }
