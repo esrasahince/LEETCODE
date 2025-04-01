@@ -1,7 +1,9 @@
 public class Solution {
     public int[][] FloodFill(int[][] image, int sr, int sc, int color) {
-        if(image==null||image.Length==0)
+        if(image==null||image.Length==0||image[sr][sc] == color)
         return image;
+
+
         BFS(image,sr,sc,color);
         return image;
         
