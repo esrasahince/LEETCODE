@@ -2,16 +2,7 @@ public class Solution {
     public int[] FindOrder(int numCourses, int[][] prerequisites) {
          List<int> result=new();
            // Eğer herhangi bir ders yoksa, boş bir liste döndür
-        if (numCourses == 0) 
-            return new int[0];
-
-        // Eğer önkoşul yoksa, sırayla tüm dersleri döndür
-        if (prerequisites.Length == 0) {
-            for (int i = 0; i < numCourses; i++) {
-                result.Add(i);
-            }
-            return result.ToArray();
-        }
+   
         Dictionary<int,HashSet<int>> courses=new();
         int[] visited=new int[numCourses];
          for(int i=0;i<numCourses;i++)
@@ -31,7 +22,7 @@ public class Solution {
             return new int[0];
         }
         result.Reverse();
-        return result.ToArray();
+        return result.Count==numCourses?result.ToArray():new int[0];
         
     }
     public bool HasCycle(Dictionary<int,HashSet<int>> courses,int index,List<int> result,   int[] visited)
