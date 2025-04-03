@@ -1,59 +1,54 @@
 public class Solution {
     public int[] FindOrder(int numCourses, int[][] prerequisites) {
+         List<int> result=new();
+           // Eğer herhangi bir ders yoksa, boş bir liste döndür
+        if (numCourses == 0) 
+            return new int[0];
 
-        Dictionary<int, List<int>> graph=new();
-        List<int> result=new();;
-        Dictionary<int,int>visited=new(); //0: not visited, 1: visited -1 : visiting
+        // Eğer önkoşul yoksa, sırayla tüm dersleri döndür
+        if (prerequisites.Length == 0) {
+            for (int i = 0; i < numCourses; i++) {
+                result.Add(i);
+            }
+            return result.ToArray();
+        }
+        Dictionary<int,HashSet<int>> courses=new();
+        int[] visited=new int[numCourses];
+         for(int i=0;i<numCourses;i++)
+        {
+            courses[i]=new HashSet<int>();
+        }
+       
+        for(int i=0;i<prerequisites.Length;i++)
+        {
+            
+            courses[prerequisites[i][1]].Add(prerequisites[i][0]);
 
-        //Initialize graph
+        }
         for(int i=0;i<numCourses;i++)
         {
-            graph[i]=new List<int>();
-            visited[i]=0;
-        }
-        //Build adjacency list
-        foreach(var item in prerequisites)
-        {
-            graph[item[1]].Add(item[0]);
-        }
-      
-       
-          for(int i=0;i<numCourses;i++)
-        {
-            if(visited[i]==0)
-            {  
-            if (!DFS(i, graph, visited, result)) {
-                    return new int[0]; // If a cycle is detected, return an empty array
-                }
-              
-               
-              
-            }
+            if(HasCycle(courses,i,result,visited))
+            return new int[0];
         }
         result.Reverse();
         return result.ToArray();
-
-    }
-    public bool DFS(int i, Dictionary<int,List<int>> graph, Dictionary<int,int> visited, List<int> result)
-    {
-        if(visited[i]==-1)
-        {
-            
-            return false; //cycle detected
-        }
         
-        if(visited[i]==1)
-        return true;
-   
-        visited[i]=-1;
-        foreach(int j in graph[i])
-        {
-            if(!DFS(j,graph,visited,result))
-            return false;
-        }
-        visited[i]=1;
-        result.Add(i);
-        return true;
-      }
-
     }
+    public bool HasCycle(Dictionary<int,HashSet<int>> courses,int index,List<int> result,   int[] visited)
+    {
+        if(visited[index]==1)
+        return true;
+        if(visited[index]==2)
+        return false;
+        visited[index]=1;
+        foreach(var item in courses[index])
+        {
+            if(HasCycle(courses,item,result,visited))
+            return true;
+
+        }
+        visited[index]=2;
+        result.Add(index);
+        return false;
+    }
+}
