@@ -1,32 +1,33 @@
-public class Solution {
+
+   
+       public class Solution {
     public int ClimbStairs(int n) {
+        Dictionary<int,int> memo=new();
+        return Recursive(n,0,memo);
 
-       
-
-
-       
-        return BottomUp(n);
         
     }
 
-    public int BottomUp(int n)
+    public int Recursive(int n, int index,Dictionary<int,int> memo)
     {
-        //TABULARATION
-         int[] target=new int[n+1];
+        if(memo.ContainsKey(index))
+        return memo[index];
+        if(index>n)
+        return 0;
+        if(memo.ContainsKey(index))
+        return memo[index];
+        if(index==n)
+        return 1;
+        
+        
+    
+         int one=Recursive(n,index+1,memo);
+         int two=Recursive(n,index+2,memo);
+         memo[index]=one+two;
 
-         //BASE CASES
-            target[n]=1;
-            target[n-1]=1;
-
-         //FOR LOOP
-         for(int i=n-2;i>=0;i--)
-         {
-            target[i]=target[i+1]+target[i+2];
-
-         }
-         return target[0];
-
+        return one+two;
     }
-
-
 }
+        
+    
+         
