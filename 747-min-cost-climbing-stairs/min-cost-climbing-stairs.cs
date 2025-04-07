@@ -4,20 +4,19 @@ public class Solution {
         return 0;
         if(cost.Length==1)
         return cost[0];
+        int first=cost[0];
+        int second=cost[1];
+        int current=Math.Min(first,second);
+     
+        for(int i=2;i<cost.Length;i++)
+        {
+           current=Math.Min(first,second)+cost[i];
+           first=second;
+           second=current;
 
-        Dictionary<int,int> memo=new();
-        return Math.Min(TopDown(cost,0,memo),TopDown(cost,1,memo));
+        }
+        return Math.Min(first,second);
+
         
-    }
-    public int TopDown(int[] cost,int index,Dictionary<int,int> memo)
-    {
-        if(index>=cost.Length)
-        return 0;
-        if(memo.ContainsKey(index))
-        return memo[index];
-      
-
-        memo[index]=Math.Min(TopDown(cost,index+1,memo),TopDown(cost,index+2,memo))+cost[index];
-        return memo[index];
     }
 }
