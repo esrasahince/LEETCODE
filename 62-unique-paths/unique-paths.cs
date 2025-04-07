@@ -1,24 +1,18 @@
 public class Solution {
     public int UniquePaths(int m, int n) {
-        int[,] board=new int[m,n];
         Dictionary<(int,int),int> memo=new();
-       return TopDown(board,0,0,memo);
+        return DFS(m,n,0,0,memo);
     }
-    public int TopDown(int[,] board,int row, int column, Dictionary<(int,int),int> memo)
+    public int DFS(int row,int column,int crow,int ccolumn,Dictionary<(int,int),int> memo)
     {
-        if(row==board.GetLength(0)-1&&column==board.GetLength(1)-1)
-        {
-            return 1;
-        }
-        if(row>=board.GetLength(0)||column>=board.GetLength(1))
+        if(crow>=row||ccolumn>=column)
         return 0;
-        if(memo.ContainsKey((row,column)))
-        {
-            return memo[(row,column)];
-        }
-
-        int result=TopDown(board,row+1,column,memo)+TopDown(board,row,column+1,memo);
-        memo[(row,column)]=result;
+        if(crow==row-1&&ccolumn==column-1)
+        return 1;
+        if(memo.ContainsKey((crow,ccolumn)))
+        return memo[(crow,ccolumn)];
+        int result=DFS(row,column,crow+1,ccolumn,memo)+DFS(row,column,crow,ccolumn+1,memo);
+        memo[(crow,ccolumn)]=result;
         return result;
     }
 }
