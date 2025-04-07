@@ -1,26 +1,23 @@
 public class Solution {
     public int Rob(int[] nums) {
-        
-
-    
-
-        return BottomUp(nums);
+        if(nums.Length==0)
+        return 0;
+        if(nums.Length==1)
+        return nums[0];
+        Dictionary<int,int> memo=new();
+        return TopDown(nums,nums.Length-1,memo);
         
     }
-    public int BottomUp(int[] nums)
+    public int TopDown(int[] nums, int origin,Dictionary<int,int> memo)
     {
-      for(int i=nums.Length-1;i>=0;i--)
-      {
-        if(i==nums.Length-2)
-        {
-            nums[i]=Math.Max(nums[nums.Length-1], nums[i]);
-        }
-        else if(i<nums.Length-2)
-         nums[i]=Math.Max(nums[i]+nums[i+2],nums[i+1]);
-        
-      }
-      
-      return nums[0];
-
+        if(origin<0)
+        return 0;
+     
+        if(memo.ContainsKey(origin))
+        return memo[origin];
+        int include=nums[origin]+TopDown(nums,origin-2,memo);
+        int exclude=TopDown(nums,origin-1,memo);
+        memo[origin]=Math.Max(include,exclude);
+        return memo[origin];
     }
 }
