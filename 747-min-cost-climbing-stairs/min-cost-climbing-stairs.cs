@@ -1,11 +1,23 @@
 public class Solution {
     public int MinCostClimbingStairs(int[] cost) {
-     
-        for(int i=cost.Length-3;i>=0;i--)
-        {
-            cost[i]=Math.Min(cost[i+1],cost[i+2])+cost[i];
+        if(cost==null)
+        return 0;
+        if(cost.Length==1)
+        return cost[0];
 
-        }
-        return Math.Min(cost[0],cost[1]);
+        Dictionary<int,int> memo=new();
+        return Math.Min(TopDown(cost,0,memo),TopDown(cost,1,memo));
+        
+    }
+    public int TopDown(int[] cost,int index,Dictionary<int,int> memo)
+    {
+        if(index>=cost.Length)
+        return 0;
+        if(memo.ContainsKey(index))
+        return memo[index];
+      
+
+        memo[index]=Math.Min(TopDown(cost,index+1,memo),TopDown(cost,index+2,memo))+cost[index];
+        return memo[index];
     }
 }
