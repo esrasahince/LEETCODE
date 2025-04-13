@@ -1,27 +1,24 @@
 public class MyCalendar {
-List<List<int>> calendar=null;
+     SortedDictionary<int,int> calendar=null;
+
     public MyCalendar() {
         this.calendar=new();
-  
+        
     }
     
     public bool Book(int startTime, int endTime) {
         if(this.calendar.Count==0)
         {
-        this.calendar.Add(new List<int>(){startTime,endTime});
+        this.calendar[startTime]=endTime;
         return true;
         }
-        
-        for(int i=0;i<this.calendar.Count;i++)
-        {  
-           if(startTime<calendar[i][1]&&endTime>calendar[i][0])
-           return false;
-            
+        foreach(var item in this.calendar)
+        {
+            if(startTime<item.Value&&endTime>item.Key)
+            return false;
         }
-        calendar.Add(new List<int>(){startTime,endTime});
-        this.calendar=calendar.OrderBy(x=>x[0]).ToList();
+        this.calendar[startTime]=endTime;
         return true;
-        
     }
 }
 
