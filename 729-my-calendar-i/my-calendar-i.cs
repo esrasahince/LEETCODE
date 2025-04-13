@@ -1,5 +1,5 @@
 public class MyCalendar {
-     SortedDictionary<int,int> calendar=null;
+     SortedList<int,int> calendar=null;
 
     public MyCalendar() {
         this.calendar=new();
@@ -9,16 +9,35 @@ public class MyCalendar {
     public bool Book(int startTime, int endTime) {
         if(this.calendar.Count==0)
         {
-        this.calendar[startTime]=endTime;
+        this.calendar.Add(startTime,endTime);
         return true;
         }
-        foreach(var item in this.calendar)
+        List<int> starttimes=calendar.Keys.ToList();
+        List<int> endtimes=calendar.Values.ToList();
+
+        //kendinden hemen sonra baslayacak etkinliği bulma
+        int upperind=starttimes.BinarySearch(startTime);
+        if(upperind<0)
         {
-            if(startTime<item.Value&&endTime>item.Key)
+            upperind=~upperind;
+        }
+      
+        if(upperind>0)
+        {
+           
+            //kendinden hemen önce biten etkinlik upperboundind-1 de yer alır
+            
+            if(endTime>starttimes[upperind-1]&&startTime<endtimes[upperind-1])
             return false;
         }
-        this.calendar[startTime]=endTime;
-        return true;
+        if(upperind<calendar.Count)
+        {
+             if(endTime>starttimes[upperind]&&startTime<endtimes[upperind])
+            return false;
+        }
+           this.calendar[startTime]=endTime;
+           return true;
+
     }
 }
 
