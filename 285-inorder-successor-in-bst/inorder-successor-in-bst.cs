@@ -18,6 +18,7 @@ public class Solution {
             if(item.val==p.val)
             {
                 index=result.IndexOf(item);
+                break;
 
             }
         }
