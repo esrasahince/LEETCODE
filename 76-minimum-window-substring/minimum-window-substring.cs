@@ -1,66 +1,64 @@
 public class Solution {
     public string MinWindow(string s, string t) {
-        string resultstr = "";
-        if(s.Length < t.Length)
-            return resultstr;
+        string result = "";
+
+        if (t.Length > s.Length)
+            return result;
+
+        // Frequency of t
+        Dictionary<char, int> tdic = new();
+        foreach (char item in t) {
+            if (tdic.ContainsKey(item))
+                tdic[item]++;
+            else
+                tdic[item] = 1;
+        }
+
+        int start = 0;
+        Dictionary<char, int> sdic = new();
+        int count = 0;
+
+        for (int i = 0; i < s.Length; i++) {
+            char item = s[i];
             
-        // Characters needed from string t
-        Dictionary<char, int> need = new();
-        foreach(char c in t) {
-            if(!need.ContainsKey(c)) {
-                need[c] = 1;
-            } else {
-                need[c]++;
+            if (tdic.ContainsKey(item)) {
+                if (sdic.ContainsKey(item))
+                    sdic[item]++;
+                else
+                    sdic[item] = 1;
+
+                // Sadece eşitlendiği anda count artırıyoruz. 
+				//yani tdic count ile burdaki count esit oldugunda
+				//bu demektirki hem itemlar hem de onların frekansları eşit
+				//artık pencereyi sonlandırabiliiz.
+                if (sdic[item] == tdic[item])
+                    count++;
+            }
+
+            // windowu küçültmeye çalış
+            while (count == tdic.Count) {
+                // window daha küçükse sonucu güncelle
+				char remove = s[start];
+				
+				
+				
+                if (result == "" || (i - start + 1) < result.Length)
+                    result = s.Substring(start, i - start + 1);
+				
+                
+                  if (tdic.ContainsKey(remove)) {
+                    sdic[remove]--;
+                    if (sdic[remove] < tdic[remove]) {
+                        count--;
+                    }
+                }
+                    
+					start++;
+                
+               
             }
         }
 
-        // Current window character count
-        Dictionary<char, int> sdic = new();
-        int itemcount = need.Count; // Number of unique characters we need to match
-        int left = 0;
-      
-        for(int right = 0; right < s.Length; right++) {
-            char currentChar = s[right];
-            
-            // If this is a character we need
-            if(need.ContainsKey(currentChar)) {
-                // Add to window
-                if(!sdic.ContainsKey(currentChar)) {
-                    sdic[currentChar] = 1;
-                } else {
-                    sdic[currentChar]++;
-                }
-                
-                // Check if we've met the frequency requirement for this character
-                if(sdic[currentChar] == need[currentChar]) {
-                    itemcount--; // One less character to satisfy
-                }
-            }
-           
-            // If we have all needed characters
-            while(itemcount == 0) { // We found all needed characters
-                // Check if this window is smaller than our previous result
-                if(resultstr == "" || resultstr.Length > right - left + 1) {
-                    resultstr = s.Substring(left, right - left + 1);
-                }
-                
-                // Try to shrink window from the left
-                char leftChar = s[left];
-                
-                // If we're removing a needed character
-                if(need.ContainsKey(leftChar)) {
-                    sdic[leftChar]--;
-                    
-                    // If we now have less than needed
-                    if(sdic[leftChar] < need[leftChar]) {
-                        itemcount++; // Need to find this character again
-                    }
-                }
-                
-                left++; // Move left pointer forward
-            }
-        }
-        
-        return resultstr;
+        return result;
     }
 }
