@@ -1,22 +1,23 @@
 public class Solution {
     public bool IsPalindrome(string s) {
-        
-        if(String.IsNullOrEmpty(s))
-        return true;
-        
-        s=s.ToLower();
-        s=new String(s.Where(x=>char.IsLetterOrDigit(x)).ToArray());
-     
-       
-        int beginptr=0;
-        int endptr=s.Length-1;
-        while(beginptr!=endptr&&beginptr<s.Length-1&&endptr>=0)
+        if(s==null)
+        return false;
+        StringBuilder result=new();
+        foreach(char item in s)
         {
-            if(s[beginptr]!=s[endptr])
+            if(char.IsLetterOrDigit(item))
+            {
+                result.Append(char.ToLower(item));
+            }
+        }
+        int left=0;
+        int right=result.Length-1;
+        while(left<right)
+        {
+            if(result[left]!=result[right])
             return false;
-            beginptr++;
-            endptr--;
-
+            left++;
+            right--;
         }
         return true;
         
