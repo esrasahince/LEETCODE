@@ -1,30 +1,32 @@
 public class Solution {
     public IList<IList<string>> GroupAnagrams(string[] strs) {
-        Dictionary<string,List<string>> dict=new();
-        List<IList<string>> result=new();
+        //Input: strs = ["eat","tea","tan","ate","nat","bat"]
 
-        foreach(string s in strs)
-        {
-            int[] item=new int[26];
-            for(int i=0;i<s.Length;i++)
-            {
-                int index=s[i]-'a';
-                item[index]++;
-            }
-             string key = string.Join(",", item);
-            if(!dict.ContainsKey(key))
-            {
-                dict[key]=new List<string>();
-            }
-            dict[key].Add(s);
-        }
+       //Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+       Dictionary<string,List<string>> result=new();
+
+       foreach(string s in strs)
+       {
+       char[] temp=s.ToCharArray();
+        Array.Sort(temp);
+        string temp2=new string(temp);
         
-
-        foreach(KeyValuePair<string,List<string>> wordlist in dict)
+        if(!result.ContainsKey(temp2))
         {
-            result.Add(wordlist.Value);
+            result[temp2]=new List<string>();
         }
-      return result;
+        result[temp2].Add(s);
 
+       }
+
+       List<IList<string>> resultlist=new();
+       foreach(List<string> resultitem in result.Values)
+       {
+        resultlist.Add(resultitem);
+
+       }
+       return resultlist;
+        
     }
 }
