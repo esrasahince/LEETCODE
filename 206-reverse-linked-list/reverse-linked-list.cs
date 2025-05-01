@@ -17,7 +17,7 @@ public class Solution {
     ListNode prev=null;
     ListNode next=null;
     ListNode current=head;
-    while(current!=null&&current.next!=null)
+    while(current.next!=null)
     { 
 		    next=current.next;
 		    current.next=prev; //okun yönünü cevirdik. gelecek nodu belirledik.
