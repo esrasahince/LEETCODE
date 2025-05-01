@@ -11,24 +11,25 @@
  */
 public class Solution {
     public ListNode ReverseList(ListNode head) {
-        
-
-        ListNode current=head;
-        ListNode nextnode=null;
-        ListNode prevnode=null;
-        while(current!=null)
-        {
-            nextnode=current.next;
-            current.next=prevnode;
-            prevnode=current;
-            current=nextnode;
-           
-            
-
-        }
-      
-        return prevnode;
-
+        if(head==null)
+        return null;
+    
+    ListNode prev=null;
+    ListNode next=null;
+    ListNode current=head;
+    while(current!=null&&current.next!=null)
+    { 
+		    next=current.next;
+		    current.next=prev; //okun yönünü cevirdik. gelecek nodu belirledik.
+		    
+		    prev=current;
+		    current=next;
+    
+    }
+    
+    //döngüden çıktığımızda son elemanı çevirememiş oluyoruz.
+    current.next=prev;
+    return current;
         
     }
 }
