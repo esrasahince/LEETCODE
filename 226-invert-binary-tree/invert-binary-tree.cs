@@ -13,34 +13,30 @@
  */
 public class Solution {
     public TreeNode InvertTree(TreeNode root) {
-        if(root==null)
-        return root;
-        BFS(root);
+        Invert(root);
         return root;
         
     }
-    public void BFS(TreeNode root)
-    {
-        Queue<TreeNode> que=new();
-        que.Enqueue(root);
-        while(que.Count>0)
-        {
-            TreeNode current=que.Dequeue();
-        
 
-            if(current.left!=null)
-            {
-              
-                que.Enqueue(current.left);
-        
-            }
-            if(current.right!=null)
-            {
-          
-                que.Enqueue(current.right);
-            }
-           (current.left,current.right)=(current.right,current.left);
-            
+    public void Invert(TreeNode node)
+    {
+        if(node==null)
+        return;
+        TreeNode left=null;
+        TreeNode right=null;
+
+        if(node.left!=null)
+        {
+            left=node.left;
         }
+        if(node.right!=null)
+        {
+            right=node.right;
+
+        }
+        node.left=right;
+        node.right=left;
+        Invert(node.left);
+        Invert(node.right);
     }
 }
