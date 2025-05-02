@@ -13,31 +13,28 @@
  */
 public class Solution {
     public bool IsValidBST(TreeNode root) {
-       int? min=null;
-
-        return InOrderTraversal(root,ref min);
-
+        return InOrder(root,long.MaxValue,long.MinValue);
         
     }
-    public bool InOrderTraversal(TreeNode current,ref int? last)
+
+    public bool InOrder(TreeNode current,long max,long min)
+
     {
         if(current==null)
         return true;
-
-        if(!InOrderTraversal(current.left,ref last))
+        if(current.val<=min||current.val>=max)
         return false;
 
-        if(last.HasValue&&current.val<=last)
-        {
-         
-          return false;
-        }
-        last=current.val;
-        
-        if(!InOrderTraversal(current.right,ref last))
+        if(!InOrder(current.left,current.val,min))
+        return false;
+        if(!InOrder(current.right,max,current.val))
         return false;
 
-       return true;
+        return true;
+
+
+
+      
 
 
     }
