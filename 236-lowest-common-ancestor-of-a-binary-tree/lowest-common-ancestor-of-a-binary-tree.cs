@@ -9,23 +9,22 @@
  */
 public class Solution {
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        return Traversal(root,p,q);
         
-       if(root==null||root==p||root==q)
-       return root;
-    
+    }
 
-        var left= LowestCommonAncestor(root.left,p,q);
-        var right= LowestCommonAncestor(root.right,p,q);
+    public TreeNode Traversal(TreeNode current, TreeNode p, TreeNode q)
+    {
+        if(current==null)
+        return null;
+        if(current==p||current==q)
+        return current;
+
+        TreeNode left=Traversal(current.left,p,q);
+        TreeNode right=Traversal(current.right,p,q);
 
         if(left!=null&&right!=null)
-        return root;
-        else 
-        return left!=null?left:right;
-        
-
-        
-        
-       
-
+        return current;
+        return left??right;
     }
 }
