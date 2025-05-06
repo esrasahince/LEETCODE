@@ -1,56 +1,52 @@
 public class Solution {
     public bool ValidTree(int n, int[][] edges) {
-   //Ağaçta kenar sayısı node sayısından bir eksik olmalı
+        //Valid Tree
+        //1.edge must be equal to n-1
+        //2. all nodes must be visted
+        //no cycle
+
         if(edges.Length!=n-1)
         return false;
-
-    //Adjacency List create
-
+        //CREATE GRAPH ADJACENCY LIST
         Dictionary<int,List<int>> graph=new();
         for(int i=0;i<n;i++)
         {
             graph[i]=new List<int>();
-
         }
-        //Adjacency List fill
-
-        foreach(var edge in edges)
+        //FİLL IT
+        foreach(var item in edges)
         {
-            graph[edge[0]].Add(edge[1]);
-            graph[edge[1]].Add(edge[0]);
+            graph[item[0]].Add(item[1]);
+            graph[item[1]].Add(item[0]);
         }
-
-
-    //DFS and CYCLE DETECTION     
-        HashSet<int> visited=new(); 
-        if(Traversal(graph,visited,0,-1))
-            return false;
+        //CYCLE DETECTION AND TRAVERSAL
+        HashSet<int> visited=new();
+        if(BFS(graph,visited,0,-1))
+        return false;
         if(visited.Count!=n)
         return false;
 
-            return true;
+        return true;
+        
     }
-    public bool Traversal( Dictionary<int,List<int>> graph,   HashSet<int> visited,int current,int parent)
+    public bool BFS(Dictionary<int,List<int>> graph,HashSet<int> visited, int current,int parent)
     {
+        Queue<(int,int)> que=new();
+        que.Enqueue((current,parent));
         visited.Add(current);
-
-        foreach(int child in graph[current])
+        while(que.Count>0)
         {
-            if(child==parent)
-            continue;
-            if(!visited.Contains(child))
+            (int cnode,int cparent)=que.Dequeue();
+            foreach(int child in graph[cnode])
             {
-                if(Traversal(graph,visited,child,current))
+                if(child==cparent)
+                continue;
+                if(visited.Contains(child))
                 return true;
+                que.Enqueue((child,cnode));
+                visited.Add(child);
             }
-            else
-            {
-                return true;
-            }
-            //visited listesinde var fakat
-           
         }
         return false;
     }
-    
 }
