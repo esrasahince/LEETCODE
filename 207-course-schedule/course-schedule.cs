@@ -1,46 +1,45 @@
 public class Solution {
     public bool CanFinish(int n, int[][] prerequisites) {
 
-        Dictionary<int,List<int>> graph=new();
-        Dictionary<int,int> incoming=new();
-        for(int i=0;i<n;i++)
-        {
-            graph[i]=new List<int>();
-            incoming[i]=0;
+        Dictionary<int, List<int>> graph = new();
+        Dictionary<int, int> visited = new();
+
+        // initialize
+        for (int i = 0; i < n; i++) {
+            graph[i] = new List<int>();
+            visited[i] = 0;
         }
-         for(int i=0;i<prerequisites.Length;i++)
-        {
-            int from=prerequisites[i][1];
-            int to=prerequisites[i][0];
+
+        // build graph
+        foreach (var pre in prerequisites) {
+            int to = pre[0];
+            int from = pre[1];
             graph[from].Add(to);
-            incoming[to]++;
         }
 
-        Queue<int> que=new();
-        foreach(var item in incoming)
-        {
-            if(item.Value==0)
-            que.Enqueue(item.Key);
-
+        // dfs check for cycle
+        for (int i = 0; i < n; i++) {
+            if (HasCycle(graph, visited, i))
+                return false;
         }
-        int visited=0;
 
-        while(que.Count>0)
-        {
-            int item=que.Dequeue();
-            visited++;
-            List<int> relateditems=graph[item];
-            foreach(int node in relateditems)
-            {
-                incoming[node]--;
-                if(incoming[node]==0)
-                que.Enqueue(node);
-            }
+        return true;
+    }
 
+    private bool HasCycle(Dictionary<int, List<int>> graph, Dictionary<int, int> visited, int current) {
+        if (visited[current] == 1)
+            return true; // cycle detected
+        if (visited[current] == 2)
+            return false; // already visited
 
+        visited[current] = 1; // mark as visiting
+
+        foreach (var neighbor in graph[current]) {
+            if (HasCycle(graph, visited, neighbor))
+                return true;
         }
-        return visited==n?true:false;
-       
-        
+
+        visited[current] = 2; // mark as visited
+        return false;
     }
 }
