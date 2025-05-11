@@ -63,7 +63,7 @@ public class Solution {
     }
 
     private void Union(int x, int y, int[] parent,int[] size) {
-        if(parent[x]<parent[y])
+        if(size[x]<size[y])
         {
             parent[x]=y;
             size[y]+=size[x];
