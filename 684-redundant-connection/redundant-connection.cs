@@ -20,12 +20,14 @@ public class Solution {
         //diziyi tanımlıyoruz
 
         int[] parent=new int[n+1];
+        int[] size=new int[n+1];
 
         //başta hepsi bağımsız yani her nodeun parentı kendi gibi yapıyoruz
 
         for(int i=1;i<n+1;i++)
         {
             parent[i]=i; //yani 1. node parentı 1, 2. node parentı 2
+            size[i]=1;
         }
 
         //iki nodeun parentı farklı ise birleştir
@@ -47,7 +49,7 @@ public class Solution {
             }
             else
             {//DIKKAT UNION PARENTLAR UZERINDEN YAPILIR
-                Union(firstparent,secondparent,parent);
+                Union(firstparent,secondparent,parent,size);
             }
         }
         return result;
@@ -58,10 +60,20 @@ public class Solution {
         return x; 
         return Find(parent[x], parent); // path compression
         
-       
     }
 
-    private void Union(int x, int y, int[] parent) {
-        parent[x] = y; // x'in kökünü y'nin köküne bağla
+    private void Union(int x, int y, int[] parent,int[] size) {
+        if(parent[x]<parent[y])
+        {
+            parent[x]=y;
+            size[y]+=size[x];
+        }
+        else
+        { 
+            parent[y]=x;
+            size[x]+=size[y];
+
+        }
+        
     }
 }
