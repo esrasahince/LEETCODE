@@ -8,7 +8,7 @@ public class Solution {
         //choices for each item add first group, or add second group not include at the same time
         //input--> index sum1, sum2
         //index<0 if(sum1==sum2) true else false
-        Dictionary<(int,int,int),bool> memo=new();
+        Dictionary<(int,int),bool> memo=new();
         int sum=0;
         for(int i=0;i<nums.Length;i++)
         {
@@ -18,22 +18,22 @@ public class Solution {
         if(sum%2!=0)
         return false;
         
-        return TopDown(nums,nums.Length-1,0,0,memo);
+        return TopDown(nums,nums.Length-1,sum/2,memo);
 
         
     }
-    public bool TopDown(int[] nums,int index,int sum1, int sum2,Dictionary<(int,int,int),bool> memo)
+    public bool TopDown(int[] nums,int index,int sum1, Dictionary<(int,int),bool> memo)
     {
         if(index<0)
         {
-            return sum1==sum2?true:false;
+            return sum1==0?true:false;
         }
-        if(memo.ContainsKey((index,sum1,sum2)))
+        if(memo.ContainsKey((index,sum1)))
         {
-            return memo[(index,sum1,sum2)];
+            return memo[(index,sum1)];
         }
 
-        memo[(index,sum1,sum2)]=TopDown(nums,index-1,sum1+nums[index],sum2,memo)||TopDown(nums,index-1,sum1,sum2+nums[index],memo);
-        return memo[(index,sum1,sum2)];
+        memo[(index,sum1)]=TopDown(nums,index-1,sum1-nums[index],memo)||TopDown(nums,index-1,sum1,memo);
+        return memo[(index,sum1)];
     }
 }
