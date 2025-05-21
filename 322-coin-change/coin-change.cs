@@ -1,24 +1,30 @@
 public class Solution {
     public int CoinChange(int[] coins, int amount) {
-        if(amount==0)
-        return 0;
-        int coincount=0;
-        int remain=0;
-        int[] total=new int[amount+1];
-        Array.Fill(total,amount+1);
-        total[0]=0;
-        
-        for(int i=1;i<amount+1;i++)
+
+        int n=coins.Length;
+        int[,] dp=new int[n+1,amount+1];
+        for(int i=0;i<amount+1;i++)
         {
-            foreach(int coin in coins)
-            {
-              if(i>=coin)
-              {
-                total[i] = Math.Min(total[i], 1 + total[i - coin]);
-              }   
-            }
-            
+            dp[0,i]=int.MaxValue-1;
         }
-        return total[total.Length-1]==amount+1?-1:total[total.Length-1];
+        
+        for(int i=1;i<n+1;i++)
+        {
+
+               for(int j=1;j<amount+1;j++)
+                
+                {
+                    if(coins[i-1]>j)
+                    {
+                        dp[i,j]=dp[i-1,j];
+                    }
+                    else
+                    {
+                        dp[i,j]=Math.Min(dp[i-1,j],1+dp[i,j-coins[i-1]]);
+                    }
+                }
+        }
+        return dp[n,amount]==int.MaxValue-1?-1:dp[n,amount];
+        
     }
 }
