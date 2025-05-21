@@ -1,31 +1,28 @@
 public class Solution {
-    public int LongestCommonSubsequence(string text1, string text2) {
+    public int LongestCommonSubsequence(string s1, string s2) {
+           // code here
+        int m=s1.Length;
+        int n=s2.Length;
+        Dictionary<(int,int),int> memo=new();
 
-        int[,] matrix=new int[text1.Length+1,text2.Length+1];
-        int maxvalue=0;
+        return TopDown(s1,s2,m-1,n-1,memo);
+        
+    }
+     public int TopDown(string s1, string s2,int m,int n,Dictionary<(int,int),int> memo)
+    {
+        if(m<0||n<0)
+        return 0;
 
-        for(int i=1; i<text1.Length+1;i++)
-        { 
-            for(int j=1;j<text2.Length+1;j++)
-            {
-                if(text1[i-1]==text2[j-1])
-                { 
-                  
-                    matrix[i,j]=matrix[i-1,j-1]+1;
-               
-                     
-                }
-                else
-                {
-                    matrix[i,j]=Math.Max(matrix[i-1,j],matrix[i,j-1]);
+        if(memo.ContainsKey((m,n)))
+        return memo[(m,n)];
 
-                }
-          
+        if(s1[m]==s2[n])
+        memo[(m,n)]=1+TopDown(s1,s2,m-1,n-1,memo);
+        else
+        memo[(m,n)]=Math.Max(TopDown(s1,s2,m-1,n,memo),TopDown(s1,s2,m,n-1,memo));
 
-            }
-        }
-
-        return matrix[text1.Length,text2.Length];
+        return memo[(m,n)];
+        
         
     }
 }
