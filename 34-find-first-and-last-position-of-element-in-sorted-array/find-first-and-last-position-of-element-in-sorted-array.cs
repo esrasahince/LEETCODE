@@ -2,44 +2,64 @@ public class Solution {
     public int[] SearchRange(int[] nums, int target) {
         if(nums.Length==1&&target==nums[0])
          return new int[2];
-        if(nums.Length==0||nums==null)
+        if(nums==null||nums.Length==0)
            return new int[]{-1,-1};
+        
+        int[] result=new int[2];
+        result[0]=FindFirst(nums,target);
+        result[1]=FindLast(nums,target);
+        
+     return result;
+        
+    }
+
+    public int FindLast(int[] nums, int target)
+    {
         int left=0;
         int right=nums.Length-1;
-        int middle=-1;
+        int result=-1;
         while(left<=right)
         {
-            middle=left+(right-left)/2;
+            int middle=left+(right-left)/2;
             if(nums[middle]==target)
-            {
-                int[] result=new int[2];
-                int first=middle;
-                int last=middle;
-        
-                while(first>0&&nums[first-1]==target)
-                {
-                    first--;
-                }
-                while(last<nums.Length-1&&nums[last+1]==target)
-                {
-                    last++;
-                }
-                result[0]=first;
-                result[1]=last;
-                return result;
+            { 
+                result=middle;
+                left=middle+1;
+                
             }
           
-            if(nums[middle]<target)
+            else if(nums[middle]<target)
             {
                 left=middle+1;
             }
             else
             right=middle-1;
         }
-        
-        return new int[]{-1,-1};
-        
-     
-        
+        return result;
     }
+    public int FindFirst(int[] nums, int target)
+    {
+        int left=0;
+        int right=nums.Length-1;
+        int result=-1;
+        while(left<=right)
+        {
+            int middle=left+(right-left)/2;
+            if(nums[middle]==target)
+            { 
+                result=middle;
+                right=middle-1;
+                
+            }
+          
+            else if(nums[middle]<target)
+            {
+                left=middle+1;
+            }
+            else
+            right=middle-1;
+        }
+        return result;
+    }
+    
 }
