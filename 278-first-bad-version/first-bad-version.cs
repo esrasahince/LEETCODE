@@ -8,18 +8,21 @@ public class Solution : VersionControl {
         // bir yerden sonra işler karışmış.
         //işlerin  İLK NEREDE karıştığını bulmaya çalışıyoruz.
         //problemi log n zamanda çözmemiz gerekiyor
+    int left = 0;
+    int right = n;
+    int result = -1;
 
-        int left=1;
-        int right=n;
-        while(left<right)
-        {
-            int middle=left+(right-left)/2;
-            if(IsBadVersion(middle))
-            right=middle;
-            else 
-            left=middle+1;
-        }
-        return left;
-        
+    while (left <= right) {
+        int middle = left + (right - left) / 2;
+
+        if (IsBadVersion(middle)) {
+            result = middle;     // Eşleşme bulundu
+            right = middle - 1;   // Sağda daha ileri bir eşleşme olabilir
+        } else
+            left = middle + 1;   // Sağ tarafa git
+     
     }
+
+    return result;
+}
 }
