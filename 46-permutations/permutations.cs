@@ -3,12 +3,13 @@ public class Solution {
 
         List<IList<int>> resultlist=new();
         List<int> result=new();
-        BackTracking(nums,result,resultlist);
+        bool[] visited=new bool[nums.Length];
+        BackTracking(nums,visited,result,resultlist);
         return resultlist;
 
         
     }
-    public void BackTracking(int[] nums,List<int> result,List<IList<int>> resultlist)
+    public void BackTracking(int[] nums,bool[] visited,List<int> result,List<IList<int>> resultlist)
     {
         if(result.Count==nums.Length)
         {
@@ -19,11 +20,13 @@ public class Solution {
         
         for(int i=0;i<nums.Length;i++)
         {
-            if(!result.Contains(nums[i]))
+            if(!visited[i])
             {
+              visited[i]=true;
               result.Add(nums[i]);
-              BackTracking(nums,result,resultlist);
+              BackTracking(nums,visited,result,resultlist);
               result.RemoveAt(result.Count-1);
+              visited[i]=false;
             }   
         }
     }
