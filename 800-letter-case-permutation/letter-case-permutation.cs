@@ -16,24 +16,12 @@ public class Solution {
             }
             if(char.IsLetter(s[index]))
             {
-                char temp=s[index];
+                s[index]=char.ToLower(s[index]);
+
                 Backtracking(s,index-1,result); //first version is same
+                s[index]=char.ToUpper(s[index]);
 
-                if(char.IsLower(temp))
-                {
-                    s[index]=char.ToUpper(temp);
-                    Backtracking(s,index-1,result);
-                    s[index]=char.ToLower(temp);
-
-                }
-                else
-                {
-                    s[index]=char.ToLower(temp);
-                    Backtracking(s,index-1,result);
-                    s[index]=char.ToUpper(temp);
-
-                }
-
+                Backtracking(s,index-1,result); //first version is same
 
             }
             else
