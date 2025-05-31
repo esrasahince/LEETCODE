@@ -3,33 +3,34 @@ public class Solution {
         List<IList<int>> result=new();
         Array.Sort(nums);
         List<int> temp=new();
-        bool[] visited=new bool[nums.Length];
-        Backtracking(nums,0,visited,temp,result);
+        Backtracking(nums,0,temp,result);
         return result;
     }
-     public void Backtracking(int[] nums,int start,bool[] visited, List<int> temp,List<IList<int>> result)
+     public void Backtracking(int[] nums,int index,List<int> temp,List<IList<int>> result)
     {
-        
+        if(index>=nums.Length)
+        {
             result.Add(new List<int>(temp));
-
-        for(int i=start;i<nums.Length;i++)
-        {
-            if(start>=nums.Length)
-        {
             return;
         }
-            if(i>start&&nums[i]==nums[i-1])//aynı seviyede dublicate olanı çağırma. bunu çağırma
-            {
-                continue;
-
-            }
-            temp.Add(nums[i]);
-            Backtracking(nums,i+1,visited,temp,result);
+        //ekle
+            temp.Add(nums[index]);
+            Backtracking(nums,index+1,temp,result);
             temp.RemoveAt(temp.Count-1);
+        //ekleme 
+        //Dublicate burada sıkıntı oluyor. 
+        //Eğer eklemediysen ve bir sonraki elemanda aynı ise o elemanı atla.
+          while(index+1<nums.Length&&nums[index]==nums[index+1])
+          {
+          index++;
+          }
+          Backtracking(nums,index+1,temp,result);
+
+
 
         }
         
     }
         
     
-    }
+    
