@@ -1,35 +1,43 @@
 public class Solution {
     public bool ValidPath(int n, int[][] edges, int source, int destination) {
-        Dictionary<int,List<int>> graph=new();
-        for(int i=0;i<n;i++)
-        {
-            graph[i]=new List<int>();
-        }
-        foreach(var edge in edges)
-        {
-            graph[edge[0]].Add(edge[1]);
-            graph[edge[1]].Add(edge[0]);
-        }
-        HashSet<int> visited=new();
-        return DFS(graph,source,destination,visited);
-        //undirected graph
-        
-    }
-    public bool DFS(Dictionary<int,List<int>> graph, int current,int dest,HashSet<int> visited)
-    {
-        if(current==dest)
+        if(edges==null||edges.Length==0||source==destination)
         return true;
-        if(visited.Contains(current))
-        return false;
-        visited.Add(current);
-        foreach(int i in graph[current])
+
+        Dictionary<int, List<int>> result = new Dictionary<int, List<int>>();
+        
+        foreach (var edge in edges)
         {
-            if(!visited.Contains(i))
+            if (!result.ContainsKey(edge[0]))
+                result[edge[0]] = new List<int>();
+            if (!result.ContainsKey(edge[1]))
+                result[edge[1]] = new List<int>();
+
+            result[edge[0]].Add(edge[1]);
+            result[edge[1]].Add(edge[0]);
+
+        }
+
+        Stack<int> stack=new();
+        HashSet<int> visited=new();
+        stack.Push(source);
+        visited.Add(source);
+        while(stack.Count > 0)
+        {
+            int item=stack.Pop();
+            foreach(var child in result[item])
             {
-                if(DFS(graph,i,dest,visited))
+                if(child==destination)
                 return true;
+                if (!visited.Contains(child))
+                {
+                    stack.Push(child);
+                    visited.Add(child);
+                }
             }
         }
         return false;
+
+
     }
+  
 }
