@@ -1,18 +1,26 @@
 public class Solution {
     public string MergeAlternately(string word1, string word2) {
-        StringBuilder result=new();
-        int count=int.Max(word1.Length,word2.Length);
 
-        for(int i=0;i<count;i++)
+        int first=0;
+        int second=0;
+        StringBuilder result=new();
+        while(first<word1.Length&&second<word2.Length)
         {
-            if(i<word1.Length)
-            {
-                result.Append(word1[i]);
-            }
-           if(i<word2.Length)
-            {
-                result.Append(word2[i]);
-            }
+            result.Append(word1[first]);
+            result.Append(word2[second]);
+            first++;
+            second++;
+
+        }
+        while(first<word1.Length)
+        {
+            result.Append(word1[first]);
+            first++;
+        }
+           while(second<word2.Length)
+        {
+            result.Append(word2[second]);
+            second++;
         }
         return result.ToString();
         
