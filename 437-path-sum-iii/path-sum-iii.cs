@@ -13,36 +13,32 @@
  */
 public class Solution {
     public int PathSum(TreeNode root, int targetSum) {
-    int count=0;
-    Recursive(root,targetSum,ref count);
-    return count;
-
-    
+        int result=0;
+         Traverse(root,targetSum,ref result);
+         return result;
         
     }
-    public void Recursive(TreeNode root,  int target,ref int count) 
+    public void Traverse(TreeNode root,int target,ref int count)
     {
         if(root==null)
         return;
-        Check(root,target,0, ref count);
-        Recursive(root.left,target, ref count);
-        Recursive(root.right,target, ref count);
-
+        DFS(root,target,0,ref count);
+        Traverse(root.left,target,ref count);
+        Traverse(root.right,target,ref count);
     }
+    public void DFS(TreeNode root, int targetsum,long sum, ref int count)
+    {
+        if(root==null)
+        return;
+        sum+=root.val;
 
-
-        private bool Check(TreeNode root, int target, long currentSum, ref int count) {
-        if (root == null) return false;
-
-        currentSum += root.val;
-
-        if (currentSum == target) {
+        if(targetsum==sum)
+        {
             count++;
+           
         }
-
-        Check(root.left, target, currentSum, ref count);
-        Check(root.right, target, currentSum, ref count);
-
-        return true; // This value is not used in the path counting logic, so it can be arbitrary.
+       DFS(root.left,targetsum,sum,ref count);
+       DFS(root.right,targetsum,sum,ref count);
+  
     }
 }
