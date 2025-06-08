@@ -13,18 +13,20 @@
  */
 public class Solution {
     public bool HasPathSum(TreeNode root, int targetSum) {
-        if(root==null)
-        return false;
         return DFS(root,0,targetSum);
         
     }
-
-    public bool DFS(TreeNode current, int currentval,int target)
+    public bool DFS(TreeNode root, int sum,int targetsum)
     {
-        if(current==null)
-        return false;
-        if(current.left==null&&current.right==null&&target==currentval+current.val)
-        return true;
-        return DFS(current.left,current.val+currentval,target)||DFS(current.right,current.val+currentval,target);
+        if(root==null)
+        {
+            return false;
+        }
+        sum+=root.val;
+        if(root.left==null&&root.right==null)
+        {
+            return sum==targetsum?true:false;
+        }
+       return DFS(root.left,sum,targetsum)||DFS(root.right,sum,targetsum);
     }
 }
