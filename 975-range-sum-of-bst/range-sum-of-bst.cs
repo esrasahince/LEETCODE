@@ -16,31 +16,22 @@ public class Solution {
         int sum=0;
          bool check=false;
     
-    DFS(root,low,high,ref sum,ref check);
+    DFS(root,low,high,ref sum);
     return sum;
 
         
     }
-    public void DFS(TreeNode root,int low,int high, ref int sum,ref bool start)
+    public void DFS(TreeNode root,int low,int high, ref int sum)
     {
         if(root==null)
         return;
-        DFS(root.left,low,high,ref sum,ref start);
-        if(root.val==low)
-        {
-            start=true;
-        }
-        if(start)
+        DFS(root.left,low,high,ref sum);
+        if(root.val>=low&&root.val<=high)
         {
             sum+=root.val;
         }
-        if(root.val==high)
-        {
-            start=false;
-
-        }
-        DFS(root.right,low,high,ref sum,ref start);
-        if(!start&&sum>0)
+        if(root.val>high)
         return;
+        DFS(root.right,low,high,ref sum);
     }
 }
