@@ -1,43 +1,39 @@
 public class Solution {
     public bool ValidPath(int n, int[][] edges, int source, int destination) {
-        if(edges==null||edges.Length==0||source==destination)
-        return true;
-
-        Dictionary<int, List<int>> result = new Dictionary<int, List<int>>();
-        
-        foreach (var edge in edges)
+        //ADJACENCY LIST CREATE
+        Dictionary<int,List<int>> graph=new();
+        for(int i=0;i<n;i++)
         {
-            if (!result.ContainsKey(edge[0]))
-                result[edge[0]] = new List<int>();
-            if (!result.ContainsKey(edge[1]))
-                result[edge[1]] = new List<int>();
-
-            result[edge[0]].Add(edge[1]);
-            result[edge[1]].Add(edge[0]);
-
+            graph[i]=new List<int>();
         }
-
-        Stack<int> stack=new();
+        foreach(var edge in edges)
+        {
+            graph[edge[0]].Add(edge[1]);
+            graph[edge[1]].Add(edge[0]);
+        }
+        //START POINT IS DETERMINED
         HashSet<int> visited=new();
-        stack.Push(source);
-        visited.Add(source);
-        while(stack.Count > 0)
-        {
-            int item=stack.Pop();
-            foreach(var child in result[item])
-            {
-                if(child==destination)
-                return true;
-                if (!visited.Contains(child))
-                {
-                    stack.Push(child);
-                    visited.Add(child);
-                }
-            }
-        }
-        return false;
+        return DFS(graph,source,destination,visited);
 
 
     }
-  
+    public bool DFS(Dictionary<int,List<int>> graph,int current,int end,HashSet<int> visited)
+    {
+        if(current==null)
+        return false;
+
+        if(current==end)
+        return true;
+
+        visited.Add(current);
+        foreach(int child in graph[current])
+        {
+            if(!visited.Contains(child))
+            {
+                if(DFS(graph,child,end,visited))
+                return true;
+            }
+        }
+        return false;
+    }
 }
