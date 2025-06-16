@@ -1,25 +1,21 @@
 public class NumArray {
+    int[] prefix;
 
-    int [] nums;
     public NumArray(int[] nums) {
-        this.nums=nums;
-        int prev=0;
+        this.prefix=new int[nums.Length+1];
+      
         for(int i=0;i<nums.Length;i++)
         {
-            prev=prev+nums[i];
-            nums[i]=prev;
+            prefix[i+1]=prefix[i]+nums[i];
         }
         
     }
     
     public int SumRange(int left, int right) {
-        
-        if(left==0)
-        {
-            return nums[right];
-        }
-        return nums[right]-this.nums[left-1];
-
+     
+  
+        return prefix[right+1]-prefix[left];
+  
         
     }
 }
