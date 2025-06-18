@@ -11,32 +11,31 @@
  *     }
  * }
  */
-public class Solution {
+ public class Solution {
     public IList<IList<int>> ZigzagLevelOrder(TreeNode root) {
         
-
         List<LinkedList<int>> result = new();
         List<IList<int>> finalresult = new();
         if(root==null)
         return finalresult;
-        Queue<(TreeNode, int, bool)> que = new();
-        que.Enqueue((root, 0, true));
+        Queue<(TreeNode, int)> que = new();
+        que.Enqueue((root, 0));
         while (que.Count > 0)
         {
-            var (current, level, dir) = que.Dequeue();
+            var (current, level) = que.Dequeue();
             if (result.Count == level)
             {
                 result.Add(new LinkedList<int>());
             }
-            if (dir)
+            if (level%2==0)
                 result[level].AddFirst(current.val);
             else
                 result[level].AddLast(current.val);
 
             if (current.right != null)
-                que.Enqueue((current.right, level + 1, !dir));
+                que.Enqueue((current.right, level + 1));
             if (current.left != null)
-                que.Enqueue((current.left, level + 1, !dir));
+                que.Enqueue((current.left, level + 1));
         }
 
 
