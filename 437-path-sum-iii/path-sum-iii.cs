@@ -13,32 +13,44 @@
  */
 public class Solution {
     public int PathSum(TreeNode root, int targetSum) {
-        int result=0;
-         Traverse(root,targetSum,ref result);
-         return result;
+        /*Buradaki prefix sum'ın bir dizide yaptığımızdan hiçbir farkı yok
+        Geçtiğimiz yol boyunca prefix sum yapıyoruz, Ama yol bitip geriye döndüğümüz
+        için BackTracking yapmak lazım */
+        Dictionary<long,int>dict=new();
+        dict[0]=1;
+        return PrefixSum(root,(long)targetSum,0,dict);
         
     }
-    public void Traverse(TreeNode root,int target,ref int count)
+    public int PrefixSum(TreeNode node,long target,long currentsum,Dictionary<long,int> dict)
     {
-        if(root==null)
-        return;
-        DFS(root,target,0,ref count);
-        Traverse(root.left,target,ref count);
-        Traverse(root.right,target,ref count);
-    }
-    public void DFS(TreeNode root, int targetsum,long sum, ref int count)
-    {
-        if(root==null)
-        return;
-        sum+=root.val;
+        if(node==null)
+        return 0;
 
-        if(targetsum==sum)
+        currentsum+=node.val;
+        int count=0;
+        long remain=currentsum-target;
+        if(dict.ContainsKey(remain))
         {
-            count++;
-           
+            count+=dict[remain];
         }
-       DFS(root.left,targetsum,sum,ref count);
-       DFS(root.right,targetsum,sum,ref count);
-  
+        if(dict.ContainsKey(currentsum))
+        {
+            dict[currentsum]++;
+        }
+        else
+        dict[currentsum]=1;
+
+        count+=PrefixSum(node.left,target,currentsum,dict);
+        count+=PrefixSum(node.right,target,currentsum,dict);
+
+        //REMOVE
+        dict[currentsum]--;
+        if(dict[currentsum]<=0)
+        dict.Remove(currentsum);
+
+        return count;
+
+
+
     }
 }
