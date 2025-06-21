@@ -9,37 +9,35 @@
  */
 public class Solution {
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        bool pcheck=false;
-        bool qcheck=false;
-        TreeNode result=DFS(root,p,q,ref pcheck,ref qcheck);
-     
-        return pcheck&&qcheck?result:null;
+    TreeNode result=LCA(root,p,q);
+    if(result!=p&&result!=q)
+    return result;
 
-        
+    bool res1=Find(root,p);
+    bool res2=Find(root,q);
+    return res1&&res2?result:null;    
+    
     }
-    public TreeNode DFS(TreeNode root, TreeNode p, TreeNode q, ref bool pcheck, ref bool qcheck)
+    public TreeNode LCA(TreeNode root, TreeNode p,TreeNode q)
     {
         if(root==null)
         return null;
-    
-       
-        TreeNode left=DFS(root.left,p,q,ref pcheck,ref qcheck);
-        TreeNode right=DFS(root.right,p,q,ref pcheck,ref qcheck);
-        if(root==p)
-        {
-            pcheck=true;
-            return root;
-        }
-        if(root==q)
-        {
-            qcheck=true;
-            return root;
-        }
-       
-    
-         if(left!=null&&right!=null)
+        if(root==p ||root==q)
+        return root;
+        TreeNode left= LCA(root.left,p,q);
+        TreeNode right=LCA(root.right,p,q);
+        if(left!=null&&right!=null)
         return root;
         
         return left!=null?left:right;
+    }
+    public bool Find(TreeNode root,TreeNode x)
+    {
+        if(root==null)
+        return false;
+        if(root==x)
+        return true;
+
+        return Find(root.left,x)||Find(root.right,x);
     }
 }
