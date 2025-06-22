@@ -1,45 +1,57 @@
 public class Solution {
     public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        Dictionary<int,List<(int,int)>> graph=new();
+
+        /* ORTAK: Graf oluşturma
+         * ORTAK: Distances array oluşturma*/
+        Dictionary<int, List<(int, int)>> graph = new();
+        int[] distance = new int[n];
         for(int i=0;i<n;i++)
         {
-            graph[i]=new List<(int,int)>();
-        }
-        foreach(var item in flights)
-        {
-            int from=item[0];
-            int to=item[1];
-            int weight=item[2];
-            graph[from].Add((to,weight));
+            graph[i] = new();
+            distance[i] = int.MaxValue;
         }
 
-        int[] distances=new int[n];
-        Array.Fill(distances,int.MaxValue);
-        distances[src]=0;
+        //ORTAK: distance ilk değeri değiştir
+        distance[src] = 0;
 
-        //normalde n-1 kez tüm kenarların üstünden geç. Ama burda k kez
-        //
+        //ORTAK Graf içeriğini doldur
 
-        for(int i=0;i<=k;i++)
+        foreach(var flight in flights)
         {
-          int[] temp=(int[])distances.Clone();
-            for(int j=0;j<n;j++)
+            int from = flight[0];
+            int to = flight[1];
+            int weight = flight[2];
+            graph[from].Add((to, weight));
+        }
+
+
+        //BELMAN FORD
+
+        for (int i = 0; i <=k; i++)
+        {
+            int[] temp = (int[])distance.Clone();  // okumaları distance dan yapcaz yazmaları tempe yapıcaz.
+
+            //Her kenar için döngü baslasın
+            foreach (var fl in flights) //her kenarı dolas
             {
-                if(distances[j]==int.MaxValue)
-                continue;
-                foreach(var (item,weight) in graph[j])
+                int from = fl[0];
+                int to = fl[1];
+                int weight = fl[2];
+
+                if (distance[from] == int.MaxValue)
+                    continue;
+                int newweight = distance[from] + weight;
+                if (newweight < temp[to])
                 {
-                    
-                    int newweight=distances[j]+weight;
-                    if(newweight<temp[item])
-                        temp[item]=newweight;
-              
+                    temp[to] = newweight;
                 }
             }
-            distances=temp;
 
+
+            distance = temp;
         }
-        
-        return distances[dst]==int.MaxValue?-1:distances[dst];        
-    }
-}
+        return distance[dst]==int.MaxValue?-1:distance[dst];
+
+    }}
+
+
