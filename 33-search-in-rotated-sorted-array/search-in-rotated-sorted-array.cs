@@ -9,7 +9,7 @@ public class Solution {
             if(nums[middle]==target)
             return middle;
             //hangi taraf sıralı
-            if(nums[middle]<=nums[right])
+            if(nums[middle]<nums[right])
             { //sağ taraf sıralı
                if(nums[middle]<target&&target<=nums[right])
                { 
