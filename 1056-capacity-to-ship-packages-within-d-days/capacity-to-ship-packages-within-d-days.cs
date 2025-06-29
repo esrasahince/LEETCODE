@@ -1,16 +1,11 @@
 public class Solution {
     public int ShipWithinDays(int[] weights, int days) {
-        int totalweight=0;
-        
-        foreach(int w in weights)
-        {
-            totalweight+=w;
-        }
-
-        //Search space 1-totalweight
+        //Search space Max eleman ile totalweight arasında
+        //biri artarken diğeri azalır. Monotonicity
         //capacity.          day
          //total weight.      1
           //totalweight-1.     2
+        int totalweight=weights.Sum();
         int left=weights.Max();
         int right=totalweight;
         while(left<right)
@@ -31,28 +26,20 @@ public class Solution {
     }
     public int CalculateDay(int[] weight, int capacity)
     { int current=0;
-       int result=0;
-        for(int i=0;i<weight.Length;i++)
+       int result=1;
+        foreach(int w in weight)
         {
-            if(current<capacity&&weight[i]<=capacity)
+            if(current+w>capacity)
             {
-                current+=weight[i];
-                if(current>capacity)
-                {
-                    result++;
-                    current=weight[i];
-                }
-
-                else if(current==capacity)
-                {
-                    result++;
-                    current=0;
-                }
+                result++;
+                current=w;
+             
             }
+            else
+             current+=w;
 
         }
-        if(current>0)
-        result++;
+      
         return result;
     }
 }
