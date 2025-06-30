@@ -1,59 +1,43 @@
 public class Solution {
     public IList<IList<int>> ThreeSum(int[] nums) {
-        List<IList<int>> result=new();
-        int len=nums.Length;
-        if(len<3)
-        return result;
         Array.Sort(nums);
-        int left=0;
-        int right=len-1;
-        int target=0;
-
-        for(int i=0;i<nums.Length-2;i++) //current value and 2 pointer 
+        List<IList<int>> result=new();
+        List<int> temp=new();
+        HashSet<(int,int,int)> set=new();
+        for(int i=0;i<nums.Length-2;i++)
         {
-            //for make unique the result for i pointer;
-            if(i>0&&nums[i]==nums[i-1])
-            continue;
-            target=-nums[i];
-            left=i+1;
-            right=len-1;
-             
+            int sum=-nums[i];
+            int left=i+1;
+            int right=nums.Length-1;
             while(left<right)
-            { //now 2 pointer
-
+            {
                 int tempsum=nums[left]+nums[right];
-                if(tempsum==target)
+                if(tempsum==sum)
                 {
-                result.Add(new List<int>{nums[i],nums[left],nums[right]});
-                while(left+1<right)
-                {
-                    if(nums[left]==nums[left+1])
-                    {
-                        left++;
-                    }
-                    else break;
-                }
-                while(right-1>left)
-                {
-                    if(nums[right]==nums[right-1])
-                    {
-                        right--;
-                    }
-                    else break;
-                }
-                left++;
-                right--;
+                  temp.Add(nums[i]);
+                  temp.Add(nums[left]);
+                  temp.Add(nums[right]);
+                  if(!set.Contains((nums[i],nums[left],nums[right])))
+                  {
+                    result.Add(new List<int>(temp));
+                    set.Add((nums[i],nums[left],nums[right]));
+                  }
+                  temp.Clear();
+                  right--;
+                  left++;
+                
 
                 }
-                else if(tempsum>target)
+               else if(tempsum>sum)
                 right--;
-                else 
+                else
                 left++;
+                
             }
-            
 
         }
         return result;
+
         
     }
 }
