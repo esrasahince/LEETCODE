@@ -1,26 +1,25 @@
 public class Solution {
     public int LongestPalindromeSubseq(string s) {
-       string reversed = new string(s.Reverse().ToArray()); 
-        int lengt=s.Length;
-
-        //LCS
-        int[,] board=new int[lengt+1,lengt+1];
-        for(int i=1;i<lengt+1;i++)
-        {
-          for(int j=1;j<lengt+1;j++)
-          {
-              if(s[i-1]==reversed[j-1])
-              {
-                board[i,j]=1+board[i-1,j-1];
-              }
-              else
-              {
-                board[i,j]=Math.Max(board[i-1,j],board[i,j-1]);
-              }
-          }
-
-        }
-        return board[lengt,lengt];
+        string reversed=new String(s.Reverse().ToArray());
+        Dictionary<(int,int),string> memo=new();
+        string result= DP(s,reversed,s.Length-1,s.Length-1,memo);
+        return result.Length;
         
+    }
+    public string DP(string x, string y, int xi,int yi,Dictionary<(int,int),string> memo)
+    {
+        if(xi<0||yi<0)
+        return "";
+        if(memo.ContainsKey((xi,yi)))
+        return memo[(xi,yi)];
+        if(x[xi]==y[yi])
+        memo[(xi,yi)]=DP(x,y,xi-1,yi-1,memo)+x[xi];
+        else
+        {
+        string left=DP(x,y,xi-1,yi,memo);
+        string right=DP(x,y,xi,yi-1,memo);
+        memo[(xi,yi)]=left.Length>right.Length?left:right;
+        }
+        return memo[(xi,yi)];
     }
 }
