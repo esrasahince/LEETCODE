@@ -1,76 +1,68 @@
 public class Solution {
     public string NextClosestTime(string time) {
-
-        int[] arr=new int[4];
-        int count=0;
-        int min=9;
-        foreach(char c in time)
-        {
-            if(Char.IsDigit(c))
-            {
-                arr[count]=c-'0';
-                min=Math.Min(arr[count],min);
+        // Extract digits from time string and find minimum 
+        int[] digits = new int[4];
+        int count = 0;
+        int minDigit = 9;
+        
+        foreach(char c in time) {
+            if(char.IsDigit(c)) {
+                digits[count] = c - '0';
+                minDigit = Math.Min(digits[count], minDigit);
                 count++;
             }
-            
         }
-       int[] order=arr.Distinct().OrderBy(x => x).ToArray();
-       Dictionary<int,int> dict=new();
-       for(int i=0;i<order.Length-1;i++)
-       {
-       
-        dict[order[i]]=order[i+1];
-       
-       }
-       dict[order[order.Length-1]]=-1;
+        
+        // Get sorted unique digits for next digit lookup
+         var uniqueDigits = digits.Distinct().ToArray();
+         Array.Sort(uniqueDigits);
 
-       int left=3;
-       while(left>=0)
-       {
-        if(dict[arr[left]]!=-1)
-        { 
-            int temp=arr[left];
-            arr[left]=dict[arr[left]];
-            if(Check(arr))
-            {
-                for(int i=left+1;i<4;i++)
-                {
-                    arr[i]=min;
+        
+        // Create lookup dictionary for next larger digit
+        Dictionary<int, int> nextDigit = new Dictionary<int, int>();
+        for(int i = 0; i < uniqueDigits.Length - 1; i++) {
+            nextDigit[uniqueDigits[i]] = uniqueDigits[i + 1];
+        }
+        nextDigit[uniqueDigits[uniqueDigits.Length - 1]] = -1; // No next digit for largest
+        
+        // Try to increment from rightmost position
+        for(int pos = 3; pos >= 0; pos--) {
+            if(nextDigit[digits[pos]] != -1) { //yani kendinden büyük eleman varsa
+                int originalDigit = digits[pos]; //değiştir valid mi diye bak
+                digits[pos] = nextDigit[digits[pos]];
+                
+                if(IsValidTime(digits)) {
+                    // valid ise kendinden sonrakileri min ile doldur. 
+                    for(int i = pos + 1; i < 4; i++) {
+                        digits[i] = minDigit;
+                    }
+                    return ConvertToString(digits);
                 }
-                return ConvertString(arr);
+                
+                // Revert if invalid
+                digits[pos] = originalDigit;
             }
-         
-            else
-            {
-            arr[left]=temp;
-            left--;
+        }
+        
+        // If no valid next time found, wrap around to next day
+        Array.Fill(digits, minDigit);
+        return ConvertToString(digits);
+    }
+    
+    private string ConvertToString(int[] digits) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < 4; i++) {
+            sb.Append((char)(digits[i] + '0'));
+            if(i == 1) {
+                sb.Append(':');
             }
-          
         }
-        else{left--;}
-
-       }
-       Array.Fill(arr,min);
-       return ConvertString(arr);
-       
+        return sb.ToString();
     }
-    public string ConvertString(int[] arr)
-    {
-        StringBuilder str=new();
-        for(int i=0;i<4;i++)
-        {
-        str.Append((char)(arr[i] + '0'));
-            if(i==1)
-            str.Append(":");
-        }
-        return str.ToString();
+    
+    private bool IsValidTime(int[] digits) {
+        int hours = digits[0] * 10 + digits[1];
+        int minutes = digits[2] * 10 + digits[3];
+        return hours < 24 && minutes < 60;
     }
-    public bool Check(int[] arr)
-    {
-        if(arr[0]*10+arr[1]>=24||arr[2]*10+arr[3]>=60)
-        return false;
-     
-        return true;
-    }
-
 }
