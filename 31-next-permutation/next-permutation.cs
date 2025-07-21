@@ -1,44 +1,43 @@
 public class Solution {
     public void NextPermutation(int[] nums) {
-        if(nums.Length<2)
-        return;
-        int left = nums.Length - 2;
-        int right = nums.Length - 1;
+    if(nums.Length<=1)
+    return;
+    
+    int right=nums.Length-2;
+    while(right>=0&&nums[right]>=nums[right+1])
+    {
+        right--;
+    }
+    //right is the pivot point,
+        // If no pivot found, array is in descending order
+        if(right < 0) {
+            Reverse(nums, 0);
+            return;
+        }
+    int left=nums.Length-1;
+    
+    while(left>right&&nums[right]>=nums[left])
+    {
        
-        
-
-        // Find first pair from the end where nums[left] < nums[right]
-        while (left >= 0 && nums[left] >= nums[right]) {
-            left--;
-            right--;
-        }
-         
-        if (left >= 0) {
-            // Pivot found at left
-            right = nums.Length - 1;
-            while (left < right) {
-                if (nums[right] > nums[left]) {
-                    Swap(nums, left, right);
-                    Reverse(nums, left + 1, nums.Length - 1);
-                    return; // Important: exit after processing pivot
-                }
-                right--;
-            }
-        }
-
-        // Only reached if no pivot found - reverse entire array
-        Reverse(nums, 0, nums.Length - 1);
+       left--;
     }
-
-    private void Swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
+    Swap(nums,right,left);
+    Reverse(nums,right+1);        
     }
-
-    private void Reverse(int[] nums, int start, int end) {
-        while (start < end) {
-            Swap(nums, start, end);
+    public void Swap(int[] nums,int left,int right)
+    {
+        int temp=nums[right];
+        nums[right]=nums[left];
+        nums[left]=temp;
+    }
+    public void Reverse(int[] nums, int start)
+    {
+        int end=nums.Length-1;
+        while(start<end)
+        {
+            int temp=nums[end];
+            nums[end]= nums[start];
+            nums[start]=temp;
             start++;
             end--;
         }
