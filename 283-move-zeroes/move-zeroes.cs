@@ -7,18 +7,16 @@ public class Solution {
         {
             if(nums[right]!=0)
             {
-                nums[left]=nums[right];
+                int temp=nums[right];
+                nums[right]=nums[left];
+                nums[left]=temp;
                
                 left++;
                 
             }
           
         }
-        while(left<nums.Length)
-        {
-            nums[left]=0;
-            left++;
-        }
+       
         
         
     }
