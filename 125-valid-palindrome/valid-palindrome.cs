@@ -1,23 +1,32 @@
 public class Solution {
     public bool IsPalindrome(string s) {
-        if(s==null)
-        return false;
-        StringBuilder result=new();
-        foreach(char item in s)
-        {
-            if(char.IsLetterOrDigit(item))
-            {
-                result.Append(char.ToLower(item));
-            }
-        }
         int left=0;
-        int right=result.Length-1;
+        int right=s.Length-1;
+     
         while(left<right)
         {
-            if(result[left]!=result[right])
-            return false;
-            left++;
-            right--;
+            char l=s[left];
+            char r=s[right];
+            if(char.IsLetterOrDigit(l)&&char.IsLetterOrDigit(r))
+            {
+                if(char.ToLower(l)==char.ToLower(r))
+                {
+                    left++;
+                    right--;
+                 
+                    continue;
+                }
+                else
+                return false;
+            }
+            else
+            {
+                if(!char.IsLetterOrDigit(l))
+                left++;
+                if(!char.IsLetterOrDigit(r))
+                right--;
+            }
+        
         }
         return true;
         
