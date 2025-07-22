@@ -11,22 +11,18 @@
  */
 public class Solution {
     public ListNode ReverseList(ListNode head) {
+        if(head==null)
+        return null;
         ListNode prev=null;
         ListNode current=head;
-       
-        return Recursive(prev,current);
-        
-    }
-    public ListNode Recursive(ListNode prev, ListNode current)
-    {
-        if(current==null)
+        while(current!=null)
+        {
+            ListNode next=current.next;
+            current.next=prev;
+            prev=current;
+            current=next;
+        }
         return prev;
-        ListNode next=current.next;
-        current.next=prev;
-        prev=current;
-        current=next;
-        return Recursive(prev,current);
-       
-
+        
     }
 }
