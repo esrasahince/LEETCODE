@@ -1,55 +1,43 @@
 public class LRUCache {
     LinkedList<(int,int)> list=null;
-    Dictionary<int,LinkedListNode<(int,int)>> dict=null;
     int capacity=0;
+    Dictionary<int,LinkedListNode<(int,int)>> dict=null;
 
     public LRUCache(int capacity) {
-        this.capacity=capacity;
-        this.dict=new();
         this.list=new();
+        this.dict=new();
+        this.capacity=capacity;
         
     }
     
     public int Get(int key) {
-        if(dict.ContainsKey(key))
-        {
-            var item=dict[key];
-            (int itemkey,int itemvalue)=item.Value;
-            list.Remove(item);
-            list.AddFirst((key,itemvalue));
-            dict[key]=list.First;
-            return itemvalue;
-
-        }
-        else
-        {
-            return -1;
-        }
+        if(!dict.ContainsKey(key))
+        return -1;
+        LinkedListNode<(int,int)> node=dict[key];
+        list.Remove(node);
+        list.AddLast(node);
+        return node.Value.Item2;
         
     }
     
     public void Put(int key, int value) {
         if(dict.ContainsKey(key))
         {
-            var item=dict[key];
+            LinkedListNode<(int,int)> item=dict[key];
             list.Remove(item);
-            list.AddFirst((key,value));
-            dict[key]=list.First;
-          
-
+                dict.Remove(key); 
+            
         }
-        else
+        if(dict.Count>=capacity)
         {
-            if(dict.Count==capacity)
-            {
-             (int last,int lastvalue)=list.Last.Value;
-             dict.Remove(last);
-             list.RemoveLast();
-
-            }
-            list.AddFirst((key,value));
-            dict[key]=list.First;
+            LinkedListNode<(int,int)> first=list.First;
+            list.RemoveFirst();
+            dict.Remove(first.Value.Item1);
         }
+      
+        list.AddLast((key,value));
+        LinkedListNode<(int,int)> last=list.Last;
+        dict[key]=last;
         
     }
 }
