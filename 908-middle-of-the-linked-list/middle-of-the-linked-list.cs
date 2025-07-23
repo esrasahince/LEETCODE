@@ -11,18 +11,17 @@
  */
 public class Solution {
     public ListNode MiddleNode(ListNode head) {
-        if(head==null)
-        return null;
         ListNode fast=head;
         ListNode slow=head;
-        while(fast.next!=null&&fast.next!=null)
+        while(fast!=null&&fast.next!=null)
         {
-            slow=slow.next;
             fast=fast.next.next;
-            if(fast==null)
-            return slow;
+            slow=slow.next;
         }
+        if(fast!=null&&fast.next!=null)
+        return slow.next;
         return slow;
+
         
     }
 }
