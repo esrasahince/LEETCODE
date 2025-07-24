@@ -4,6 +4,7 @@ public class Solution
     {
         int left = 0;
         int result = 0;
+        int max=0;
         Dictionary<char,int> dict=new();
         for (int right = 0; right < s.Length; right++)
         {
@@ -17,8 +18,8 @@ public class Solution
                 dict[item] = 1;
             }
             int windowsize = right - left + 1;
-            var max = CheckDict(dict);
-            if (windowsize - max.Value > k)
+            max = Math.Max(max,dict[item]);
+            if (windowsize - max > k)
             {
                 char slideitem = s[left];
                 dict[slideitem]--;
@@ -34,16 +35,7 @@ public class Solution
 
     }
 
-    public KeyValuePair<char, int> CheckDict(Dictionary<char, int> dict)
-    {
-        Comparer<int> comp = Comparer<int>.Create((a, b) => b.CompareTo(a));
-        PriorityQueue<KeyValuePair<char,int>, int> que = new PriorityQueue<KeyValuePair<char,int>, int>(comp);
-        foreach (var item in dict)
-        {
-            que.Enqueue(item, item.Value);
-        }
-        return que.Peek();
-    }
+   
 
     
 
