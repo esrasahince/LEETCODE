@@ -9,23 +9,12 @@ public class Solution {
         Stack<char> stack=new();
         foreach (char c in s)
         {
-            if(stack.Count==0)
-            {
-                if(!dict.ContainsKey(c))
-                    return false;
-                else
-                {
-                    stack.Push(c);
-                }
-            }
-            else
-            {
                 if(dict.ContainsKey(c))
                     stack.Push(c);
-                else if(dict[stack.Peek()]==c)
-                stack.Pop();
-                else return false;
-            }
+                else if(stack.Count==0||dict[stack.Peek()]!=c)
+                return false;
+                else stack.Pop();
+            
             
         }
         return stack.Count>0?false: true;
