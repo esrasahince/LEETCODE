@@ -11,32 +11,32 @@
  */
 public class Solution {
     public ListNode MergeKLists(ListNode[] lists) {
+        if(lists==null)
+        return null;
         PriorityQueue<int,int> que=new();
-        foreach(var node in lists)
+        foreach(var item in lists)
         {
-            var item=node;
-            while(item!=null)
-            {
-                que.Enqueue(item.val,item.val);
-                item=item.next;
+             ListNode current=item;
+             while(current!=null)
+             {
+                que.Enqueue(current.val,current.val);
+                current=current.next;
             }
         }
-        ListNode head=null;
-        if(que.Count>0)
-        {
-            head=new ListNode(que.Dequeue());
-        }
-        ListNode current=head;
-
+        if(que.Count==0)
+        return null;
+        ListNode node=new ListNode();
+        ListNode dummy=new ListNode(0,node);
+        node.val=que.Dequeue();
         while(que.Count>0)
-        {   int value=que.Dequeue();
-            ListNode item=new ListNode(value);
-            ListNode temp=current;
-            temp.next=item;
-            current=item;
+        {
+            ListNode current=new ListNode(que.Dequeue());
+            node.next=current;
+            node=current;
         }
-            
-        return head;
+        return dummy.next;
+
+
         
     }
 }
