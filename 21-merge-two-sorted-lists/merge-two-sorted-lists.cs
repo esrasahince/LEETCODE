@@ -15,33 +15,51 @@ public class Solution {
         return list2;
         if(list2==null)
         return list1;
+        if(list1==null&&list2==null)
+        return null;
 
-        ListNode dummy=new ListNode(0);
-        ListNode current=dummy;
-        while(list1!=null&&list2!=null)
+        ListNode ptr1=list1;
+        ListNode ptr2=list2;
+       
+       
+        ListNode current=new ListNode(0);
+        ListNode result=current;
+
+        while(ptr1!=null&&ptr2!=null)
         {
-            if(list1.val<list2.val)
-            {
-                current.next=list1;
-                list1=list1.next;
+          
 
+            if(ptr1.val<=ptr2.val)
+            {
+               ListNode ptr1next=ptr1.next;
+               current.next=ptr1;
+               
+               current=ptr1;
+               ptr1=ptr1.next;
             }
             else
             {
-                current.next=list2;
-                list2=list2.next;
-
+               ListNode ptr2next=ptr2.next;
+               current.next=ptr2;
+            
+               current=ptr2;
+               ptr2=ptr2.next;
             }
-            current=current.next;
-      
-        }
-              if(list2!=null)
-            current.next=list2;
-            if(list1!=null)
-            current.next=list1;
 
-            dummy=dummy.next;
-            return dummy;
+            
+        }
+        if(ptr1!=null)
+        current.next=ptr1;
+        else 
+        current.next=ptr2;
+       
+
+        
+
+       return result.next;
+
+      
+        
         
     }
 }
