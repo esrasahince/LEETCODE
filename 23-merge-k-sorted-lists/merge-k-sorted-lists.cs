@@ -13,30 +13,27 @@ public class Solution {
     public ListNode MergeKLists(ListNode[] lists) {
         if(lists==null)
         return null;
-        PriorityQueue<int,int> que=new();
+        PriorityQueue<ListNode,int> que=new();
         foreach(var item in lists)
         {
-             ListNode current=item;
-             while(current!=null)
+             ListNode listitem=item;
+             while(listitem!=null)
              {
-                que.Enqueue(current.val,current.val);
-                current=current.next;
+                que.Enqueue(listitem,listitem.val);
+                listitem=listitem.next;
             }
         }
         if(que.Count==0)
         return null;
-        ListNode node=new ListNode();
-        ListNode dummy=new ListNode(0,node);
-        node.val=que.Dequeue();
+        ListNode current=que.Dequeue();
+        ListNode dummy=current;
         while(que.Count>0)
         {
-            ListNode current=new ListNode(que.Dequeue());
-            node.next=current;
-            node=current;
+            ListNode item=que.Dequeue();
+            current.next=item;
+            current=item;
         }
-        return dummy.next;
-
-
-        
+        current.next=null;
+        return dummy; 
     }
 }
