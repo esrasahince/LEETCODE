@@ -4,21 +4,12 @@ public class Solution {
         if(n>=1) result[1]=1;
         for(int i=2;i<n+1;i++)
         {
-            result[i]=Count(i);
+            result[i]=result[i>>1]+(i&1);
         }
 
     return result;
         
     }
 
-    public int Count (int n)
-    {
-        int count=0;
-        while(n!=0)
-        {
-            n=n&(n-1);
-            count++;
-        }
-        return count;
-    }
+ 
 }
