@@ -13,31 +13,23 @@
  */
 public class Solution {
     public bool IsBalanced(TreeNode root) {
-      return CheckBalance(root);
+        bool result=true;
+        CalculateHeight(root,ref result);
+        return result;
+
+        
     }
-    public bool CheckBalance(TreeNode current)
+    public int CalculateHeight(TreeNode current, ref bool result)
     {
         if(current==null)
-        return true;
-
-        if(Math.Abs(CalculateHeight(current.left)-CalculateHeight(current.right))>1)
-        return false;
-
-        return CheckBalance(current.left)&&CheckBalance(current.right);
+         return 0;
         
+        int left=CalculateHeight(current.left,ref result);
+        int right=CalculateHeight(current.right,ref result);
 
-        
-        
+        if(Math.Abs(left-right)>1)
+        result=false;
 
+        return Math.Max(left,right)+1;
     }
-    public int CalculateHeight(TreeNode current)
-    {
-        if(current==null)
-        return 0;
-        
-        return Math.Max(CalculateHeight(current.left),CalculateHeight(current.right))+1;
-    }
-    
-    
-
 }
