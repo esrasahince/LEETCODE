@@ -13,29 +13,29 @@
  */
 public class Solution {
     public bool IsValidBST(TreeNode root) {
-        return InOrder(root,long.MaxValue,long.MinValue);
+        int? i=null;
+        return DFS(root,ref i);
+        
         
     }
-
-    public bool InOrder(TreeNode current,long max,long min)
-
+    public bool DFS(TreeNode current,ref  int? lastvalue)
     {
         if(current==null)
         return true;
-        if(current.val<=min||current.val>=max)
+
+        if(!DFS(current.left,ref  lastvalue))
         return false;
 
-        if(!InOrder(current.left,current.val,min))
+        if(lastvalue.HasValue&&current.val<=lastvalue)
         return false;
-        if(!InOrder(current.right,max,current.val))
-        return false;
+        lastvalue=current.val;
 
-        return true;
-
-
-
+        if(!DFS(current.right,ref lastvalue))
+         return false;
       
 
+       return true;
 
     }
+    
 }
