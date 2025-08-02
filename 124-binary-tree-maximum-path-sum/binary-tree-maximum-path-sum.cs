@@ -18,20 +18,15 @@ public class Solution {
         return result;
         
     }
-  
-    public int DFS(TreeNode root,ref int result)
+    public int DFS(TreeNode current,ref int result)
     {
-        if(root==null)
+        if(current==null)
         return 0;
-        int left = Math.Max(0, DFS(root.left, ref result));
-        int right = Math.Max(0, DFS(root.right, ref result));
-        
-        result=Math.Max(result,right+left+root.val);
-      
-
-        int current=Math.Max(left,right)+root.val;
-    
-        return current;
+        int left=Math.Max(0, DFS(current.left,ref result));
+        int right=Math.Max(0, DFS(current.right,ref result));
+        int currentsum=left+right+current.val;
+        result=Math.Max(result,currentsum);
+        return Math.Max(left,right)+current.val;
 
     }
 }
