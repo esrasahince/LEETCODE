@@ -19,17 +19,17 @@ public class Solution {
 
         
     }
-    public int CalculateHeight(TreeNode current, ref bool result)
-    {
-        if(current==null)
-         return 0;
-        
-        int left=CalculateHeight(current.left,ref result);
-        int right=CalculateHeight(current.right,ref result);
+   public int CalculateHeight(TreeNode current, ref bool result)
+{
+    if(current == null || !result) // Early exit if already unbalanced
+        return 0;
+    
+    int left = CalculateHeight(current.left, ref result);
+    int right = CalculateHeight(current.right, ref result);
 
-        if(Math.Abs(left-right)>1)
-        result=false;
+    if(Math.Abs(left - right) > 1)
+        result = false;
 
-        return Math.Max(left,right)+1;
-    }
+    return Math.Max(left, right) + 1;
+}
 }
