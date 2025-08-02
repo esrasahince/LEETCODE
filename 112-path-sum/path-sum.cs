@@ -12,21 +12,25 @@
  * }
  */
 public class Solution {
-    public bool HasPathSum(TreeNode root, int targetSum) {
-        return DFS(root,0,targetSum);
+    //roottan leafe doğru targeta ulasabilir miyiz
+    public bool HasPathSum(TreeNode root, int targetsum) {
+        return DFS(root,targetsum);
         
     }
-    public bool DFS(TreeNode root, int sum,int targetsum)
+
+    public bool DFS(TreeNode current,int targetsum)
     {
-        if(root==null)
+        if(current==null)
+        return false;
+        if(current.left==null&current.right==null)
         {
-            return false;
+            if(targetsum==current.val)
+            return true;
+            else return false;
         }
-        sum+=root.val;
-        if(root.left==null&&root.right==null)
-        {
-            return sum==targetsum?true:false;
-        }
-       return DFS(root.left,sum,targetsum)||DFS(root.right,sum,targetsum);
+        targetsum-=current.val;
+        bool left=DFS(current.left,targetsum);
+        bool right=DFS(current.right,targetsum);
+        return left||right;
     }
 }
