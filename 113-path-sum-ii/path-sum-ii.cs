@@ -13,29 +13,36 @@
  */
 public class Solution {
     public IList<IList<int>> PathSum(TreeNode root, int targetSum) {
-        List<IList<int>> result=new();
+
+        List<IList<int>>  result=new();
         List<int> temp=new();
-        DFS(root,targetSum,result,temp);
+        DFS(root,targetSum,temp,result);
         return result;
         
     }
-
-    public void DFS(TreeNode root,int target,List<IList<int>> result,List<int> temp)
+    public void DFS(TreeNode current, int target, List<int> temp, List<IList<int>>  result)
     {
-        if(root==null)
+        if(current==null)
         return;
-        temp.Add(root.val);
-        if(root.left==null&&root.right==null)
+          temp.Add(current.val);
+        if(current.left==null&&current.right==null)
         {
-            if(target==root.val)
-            result.Add(new List<int>(temp));
-           
+            if(target==current.val)
+            {
+              
+                result.Add(new List<int>(temp));
+               
+
+            }
         }
         else
-        {
-        DFS(root.left,target-root.val,result,temp);
-        DFS(root.right,target-root.val,result,temp);
-        }
-        temp.RemoveAt(temp.Count-1);
+            {
+        
+            target=target-current.val;
+            DFS(current.left,target,temp,result);
+            DFS(current.right,target,temp,result);
+            }
+            temp.RemoveAt(temp.Count-1);
+        
     }
 }
