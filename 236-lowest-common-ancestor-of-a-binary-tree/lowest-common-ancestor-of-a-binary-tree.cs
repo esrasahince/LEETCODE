@@ -9,22 +9,21 @@
  */
 public class Solution {
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        return Traversal(root,p,q);
+        return Find(root,p,q);
         
     }
 
-    public TreeNode Traversal(TreeNode current, TreeNode p, TreeNode q)
+    public TreeNode Find(TreeNode current,TreeNode p, TreeNode q)
     {
         if(current==null)
         return null;
         if(current==p||current==q)
         return current;
 
-        TreeNode left=Traversal(current.left,p,q);
-        TreeNode right=Traversal(current.right,p,q);
-
-        if(left!=null&&right!=null)
-        return current;
-        return left??right;
+        TreeNode left=Find(current.left,p,q);
+        TreeNode right=Find(current.right,p,q);
+        if(left!=null&right!=null)
+          return current;
+        return left!=null?left:right;
     }
 }
