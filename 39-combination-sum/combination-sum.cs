@@ -1,27 +1,33 @@
 public class Solution {
     public IList<IList<int>> CombinationSum(int[] candidates, int target) {
-               List<IList<int>>[] total = new List<IList<int>>[target + 1];
-        for(int k=0;k<target+1;k++)
-        {
-            total[k] = new List<IList<int>>();
-        }
-      total[0].Add(new List<int>());
-        
-        foreach(int item in candidates)
-        {
-            for(int i=item;i<target+1;i++)
-            {
-                
-                foreach(var subset in total[i-item])
-                {
-                    var temp = new List<int>(subset);
-                    temp.Add(item);
-                    total[i].Add(temp);
-                }
-               
-            }
-        }
 
-        return total[target];
-}
+    List<IList<int>> result=new();
+    List<int> temp=new();
+      
+    DFS(candidates,0,0,target,result,temp);
+    return result;
+        
+    }
+
+    public void DFS(int[] nums,int index,int sum,int target,List<IList<int>> result,List<int> temp)
+    {
+        if(index>=nums.Length)
+        return;
+        if(sum==target)
+        {
+            result.Add(new List<int>(temp));
+            return;
+        }
+        //EKLEME bir sonrakinden devam et
+        DFS(nums,index+1,sum,target,result,temp);
+
+        //EKLE
+        if(sum+nums[index]<=target)
+        {
+        temp.Add(nums[index]);
+        DFS(nums,index,sum+nums[index],target,result,temp);
+        temp.RemoveAt(temp.Count-1);
+        }
+        
+    }
 }
