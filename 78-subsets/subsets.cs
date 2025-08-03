@@ -1,27 +1,30 @@
 public class Solution {
     public IList<IList<int>> Subsets(int[] nums) {
-        
+
         List<IList<int>> result=new();
-    
         List<int> temp=new();
-        Backtracking(nums,0,temp,result);
+        DFS(nums,0,result,temp);
         return result;
+        
     }
-    public void Backtracking(int[] nums,int index, List<int> temp,List<IList<int>> result)
+
+    public void DFS(int[] nums,int index, List<IList<int>> result,List<int> temp)
     {
-        if(index==nums.Length)
+        if(index>=nums.Length)
         {
-        result.Add(new List<int>(temp));
-        return;
+            result.Add(new List<int>(temp));
+            return;
         }
-      
-        Backtracking(nums,index+1,temp,result);
+
+
+        //EKLE
         temp.Add(nums[index]);
-        Backtracking(nums,index+1,temp,result);
+        DFS(nums,index+1,result,temp);
         temp.RemoveAt(temp.Count-1);
 
+        //EKLEME
+        DFS(nums,index+1,result,temp);
 
-        
+      
     }
-
 }
