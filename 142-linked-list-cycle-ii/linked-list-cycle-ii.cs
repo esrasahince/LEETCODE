@@ -11,32 +11,29 @@
  */
 public class Solution {
     public ListNode DetectCycle(ListNode head) {
+        //ilk karsılasmadan sonra slow'u head e getirip 1 er ilerlet
+
         if(head==null)
-        return null;
-        ListNode fast=head;
+        return head;
         ListNode slow=head;
-       
+        ListNode fast=head;
         while(fast!=null&&fast.next!=null)
         {
             slow=slow.next;
             fast=fast.next.next;
-            if(fast==slow) //ilk karşılaşma yaşandıktan sonra slow dongu basına
-            //daha sonra da ikiside birer birer ilerlicek
+            if(fast==slow) //meeting point
             {
                 slow=head;
                 while(slow!=fast)
                 {
                     slow=slow.next;
-                    fast=fast.next; //ikinci kez karsılastıklarında yani eşit olunca
-                    //buradaki döngü de biter
+                    fast=fast.next;
                 }
                 return slow;
             }
-
-         
         }
         return null;
-    
+
         
     }
 }
