@@ -13,19 +13,20 @@
  */
 public class Solution {
     public TreeNode InvertTree(TreeNode root) {
-
         DFS(root);
         return root;
+
+        
     }
-    public void DFS(TreeNode root)
+
+    public void DFS(TreeNode node)
     {
-        if (root==null)
+        if(node==null)
         return;
-        TreeNode left=root.left;
-        TreeNode right=root.right;
-        root.left=right;
-        root.right=left;
-        DFS(root.left);
-        DFS(root.right);
+        TreeNode temp=node.left;
+        node.left=node.right;
+        node.right=temp;
+        DFS(node.left);
+        DFS(node.right);
     }
 }
