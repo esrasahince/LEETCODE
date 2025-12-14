@@ -13,27 +13,31 @@
  */
 public class Solution {
     public bool IsSameTree(TreeNode p, TreeNode q) {
-        bool result=true;
-        PreOrder(p,q,ref result);
-        return result;
+
+
+    return DFS(p,q);
         
     }
-    public void PreOrder(TreeNode p,TreeNode q,ref bool result)
+
+    public bool DFS(TreeNode p, TreeNode q)
     {
         if(p==null&&q==null)
-        {
-            return;
-        }
-         if(p==null||q==null)
-        {   result=false;
-            return;
-        }
+        return true;
+        if(p==null||q==null)
+        return false;
+        
+        
+
         if(p.val!=q.val)
         {
-            result=false;
-            return;
+            return false;
         }
-        PreOrder(p.left,q.left,ref result);
-        PreOrder(p.right,q.right,ref result);
+            if(!DFS(p.left,q.left))
+            return false;
+            if(!DFS(p.right,q.right))
+            return false;
+        
+        return true;
+
     }
 }
