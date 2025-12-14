@@ -14,22 +14,31 @@
 public class Solution {
     public bool IsBalanced(TreeNode root) {
         bool result=true;
-        CalculateHeight(root,ref result);
+        DFS(root,ref result);
         return result;
+
 
         
     }
-   public int CalculateHeight(TreeNode current, ref bool result)
-{
-    if(current == null || !result) // Early exit if already unbalanced
+
+    public int DFS(TreeNode root, ref bool result)
+    {
+        if(root==null)
         return 0;
-    
-    int left = CalculateHeight(current.left, ref result);
-    int right = CalculateHeight(current.right, ref result);
 
-    if(Math.Abs(left - right) > 1)
-        result = false;
+        if(result==false)
+        return -1;
+        
+        int left=DFS(root.left,ref result)+1;
+        int right=DFS(root.right,ref result)+1;
+        if(left==0||right==0)
+        return -1;
+        
+        if(Math.Abs(left-right)>1)
+        result=false;
 
-    return Math.Max(left, right) + 1;
-}
+        return Math.Max(left,right);
+
+
+    }
 }
