@@ -16,31 +16,23 @@ public class Solution {
         List<int> result=new();
         if(root==null)
         return result;
-        Dictionary<int,int> dict=new();
         Queue<(TreeNode,int)> que=new();
-        que.Enqueue((root,0));
+        que.Enqueue((root,1));
 
         while(que.Count>0)
         {
-            (TreeNode current,int level)=que.Dequeue();
-          
-            dict[level]=current.val;
-            
-            if(current.left!=null)
-            que.Enqueue((current.left,level+1));
-            if(current.right!=null)
-            que.Enqueue((current.right,level+1));
-        }
+            (TreeNode item,int level)=que.Dequeue();
+            if(level>result.Count)
+            result.Add(item.val);
 
-        int count=0;
-        while(count<dict.Count)
-        {
-            result.Add(dict[count]);
-            count++;
+            if(item.right!=null)
+            que.Enqueue((item.right,level+1));
+            if(item.left!=null)
+            que.Enqueue((item.left,level+1));
+
 
         }
         return result;
-
         
     }
 }
