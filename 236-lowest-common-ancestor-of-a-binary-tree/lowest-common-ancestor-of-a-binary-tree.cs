@@ -8,22 +8,26 @@
  * }
  */
 public class Solution {
-    public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        return Find(root,p,q);
+public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
+        return DFS(root,p,q);
         
     }
 
-    public TreeNode Find(TreeNode current,TreeNode p, TreeNode q)
+    public TreeNode DFS(TreeNode node, TreeNode p, TreeNode q)
     {
-        if(current==null)
+        if(node==null)
         return null;
-        if(current==p||current==q)
-        return current;
+        if(node==p||node==q)
+        return node; //dont need to traverse the branch
 
-        TreeNode left=Find(current.left,p,q);
-        TreeNode right=Find(current.right,p,q);
-        if(left!=null&right!=null)
-          return current;
-        return left!=null?left:right;
+        TreeNode left=DFS(node.left,p,q);
+        TreeNode right=DFS(node.right,p,q);
+         if(left!=null&&right!=null)
+            return node;
+
+        return left==null?right:left;
+
+
     }
 }
