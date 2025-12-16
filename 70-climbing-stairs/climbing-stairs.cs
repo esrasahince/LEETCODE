@@ -1,28 +1,21 @@
-
 public class Solution {
     public int ClimbStairs(int n) {
-        if(n<=0)
-        return 0;
+        Dictionary<int,int> memory=new();
 
-        Dictionary<int,int> memo=new();
-        return TopDown(0,memo,n);
+        return DP(n,0,memory);
         
-
     }
 
-    public int TopDown(int ind, Dictionary<int,int> memo, int n)
+    public int DP(int n,int current,Dictionary<int,int> memory)
     {
-
-        if(ind>n)
+        if(current>n)
         return 0;
-        if(ind==n)
+        if(current==n)
         return 1;
-        if(memo.ContainsKey(ind))
-        return memo[ind];
+        if(memory.ContainsKey(current))
+        return memory[current];
+        memory[current]=DP(n,current+1,memory)+DP(n,current+2,memory);
+        return memory[current];
 
-         int result=TopDown(ind+1,memo,n)+TopDown(ind+2,memo,n);
-         memo[ind]=result;
-         return result;
-
-        
-    }}
+    }
+}
