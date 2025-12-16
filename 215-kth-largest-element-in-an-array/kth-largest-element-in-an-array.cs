@@ -1,26 +1,20 @@
 public class Solution {
     public int FindKthLargest(int[] nums, int k) {
-        //largest elementi soruosa minheap kullanıcaz
 
-        PriorityQueue<int,int> que=new();
-        for(int j=0;j<k;j++)
+        Comparer<int> comp=Comparer<int>.Create((a,b)=>b.CompareTo(a));
+
+        PriorityQueue<int,int> que=new(comp);
+        foreach(var item in nums)
         {
-            que.Enqueue(nums[j],nums[j]);
+        
+            que.Enqueue(item,item);
         }
-     
-        if(nums.Length<=k)
+        for(int i=1;i<k;i++)
         {
-            return que.Dequeue();
-        }
-        int i=k;
-        while(i<nums.Length)
-        {
-            que.Enqueue(nums[i],nums[i]);
             que.Dequeue();
-            i++;
-   
         }
-        return que.Dequeue();
+      
+        return que.Peek();
         
     }
 }
