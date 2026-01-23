@@ -1,23 +1,17 @@
 public class Solution {
     public void MoveZeroes(int[] nums) {
-        if(nums.Length<=1)
-        return;
         int left=0;
-        for(int right=0;right<nums.Length;right++)
+        for(int i=0;i<nums.Length;i++)
         {
-            if(nums[right]!=0)
+            if(nums[i]!=0)
             {
-                int temp=nums[right];
-                nums[right]=nums[left];
-                nums[left]=temp;
-               
+                nums[left]=nums[i];
                 left++;
-                
             }
-          
         }
-       
-        
+        while(left<nums.Length)
+        {nums[left]=0;
+        left++;}
         
     }
 }
