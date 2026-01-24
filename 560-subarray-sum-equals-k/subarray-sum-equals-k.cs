@@ -1,27 +1,23 @@
 public class Solution {
     public int SubarraySum(int[] nums, int k) {
         Dictionary<int,int> dict=new();
+       
         dict[0]=1;
-        int currentsum=0;
+        int current=0;
         int result=0;
+       
         for(int i=0;i<nums.Length;i++)
         {
-            currentsum+=nums[i];
-            int temp=currentsum-k;
-            if(dict.ContainsKey(temp)) //k yı bulduk demektir. resultı güncelle
-            {
-                result+=dict[temp];
+            current=nums[i]+current;
+          
+            int remain=current-k;
+            if(dict.ContainsKey(remain)){
+              result+=dict[remain];
             }
-            //her durumda currentsumı dicte ekliycez
-            if(dict.ContainsKey(currentsum))
-            {
-                dict[currentsum]++;
-            }
+            if(dict.ContainsKey(current))
+            dict[current]++;
             else
-            {
-                 dict[currentsum]=1;
-                
-            }
+            dict[current]=1;
 
         }
         return result;
