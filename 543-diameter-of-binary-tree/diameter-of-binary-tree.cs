@@ -14,21 +14,18 @@
 public class Solution {
     public int DiameterOfBinaryTree(TreeNode root) {
         int result=0;
-       CalculateHeight(root,ref result);
-       return result;
 
-
-    }
-
-    public int CalculateHeight(TreeNode node,ref int result)
-    {
-        if(node==null)
-        return 0;
-         int left=CalculateHeight(node.left,ref result);
-         int right=CalculateHeight(node.right,ref result);
-         
-         result=Math.Max(left+right,result);
+         DFS(root,ref result);
+        return result;
         
-         return Math.Max(left,right)+1;
+    }
+    public int DFS(TreeNode root, ref int max)
+    {
+        if(root==null)
+        return 0;
+        int left=DFS(root.left,ref max);
+        int right=DFS(root.right,ref max);
+        max=Math.Max(left+right,max);
+        return Math.Max(left,right)+1;
     }
 }
