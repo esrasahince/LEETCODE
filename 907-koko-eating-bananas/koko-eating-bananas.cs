@@ -1,49 +1,38 @@
- public class Solution {
+public class Solution {
     public int MinEatingSpeed(int[] piles, int h) {
-      //minimum hız 1 olabilir
-      //maximum hız sonsuz olabilir ama buna gerek yok
-      //biz minimum bulmaya calısıyoruz. Maximumu dizideki max eleman olarak alsak yeterli
-      //özetle [1.....maxitem] şeklinde bi dizi oluşturuyoruz. Bu dizi ne anlama geliyor
-      //bu aslında bizim hızlarımız. minimum hızı bulmaya çalışıyoruz.
-      //normalde tek tek tüm elemanları deneyerek O(n) zamanda bulabiliriz. Ama binary search burda işimize yarar
-      Array.Sort(piles);
-
-      int left=1;
-      int right=piles[piles.Length-1]; //max eleman
-
-      while(left<=right)
-      {
-        int middle=left+(right-left)/2;
-
-        //F-F-F-T-T-T-T-T
-     
-        if(TotalTime(piles,middle,h)) //daha kucuk rakamlarda da true gelebilir mi acaba 
+        int max=0;
+        for(int i=0;i<piles.Length;i++)
         {
-            right=middle-1;
+         max=Math.Max(max,piles[i]);
         }
-        else
+        int left=1;
+        int right=max;
+        int middle=0;
+        while(left<right)
+        {
+        middle=left+(right-left)/2;
+
+        int total=Calculate(piles,middle);
+        
+        if(total>h)
         {
             left=middle+1;
         }
-
-      }
-      return left;
-        
+        else
+        {
+            right=middle;
+        }
+        }
+        return left;
         
     }
-     public bool TotalTime(int[] piles,int speed,int target)
+    public int Calculate(int[] piles,int h)
     {
-        long sum=0;
-        foreach(int item in piles)
+        int result=0;
+        for(int i=0;i<piles.Length;i++)
         {
-           sum+=(long)Math.Ceiling((double)item / speed); 
+           result+=(int)Math.Ceiling(piles[i]/(double)h);
         }
-       if(sum>target)
-       {
-        return false;
-       }
-       return true;
-       
+        return result;
     }
 }
- 
