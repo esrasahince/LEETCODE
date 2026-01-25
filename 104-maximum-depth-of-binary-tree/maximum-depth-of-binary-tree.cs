@@ -16,12 +16,13 @@ public class Solution {
         return DFS(root);
         
     }
-    public int DFS(TreeNode root)
+    public int DFS(TreeNode node)
     {
-        if(root==null)
-        { 
-            return 0;
-        }
-        return Math.Max(DFS(root.left),DFS(root.right))+1;
+        if(node==null)
+        return 0;
+        int left=DFS(node.left);
+        int right=DFS(node.right);
+        return Math.Max(left,right)+1;
+
     }
 }
