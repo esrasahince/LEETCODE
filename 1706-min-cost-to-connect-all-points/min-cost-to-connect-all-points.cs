@@ -1,26 +1,26 @@
 public class Solution {
     public int MinCostConnectPoints(int[][] points) {
 
-        PriorityQueue<(int,int),int> que=new();
-        HashSet<(int,int)> visited=new();
-        que.Enqueue((points[0][0],points[0][1]),0);
+        PriorityQueue<int,int> que=new(); //elemanın indexi ve distanceı
+        HashSet<int> visited=new();
+        que.Enqueue(0,0); //0. indexdeki elemanı 0 costla ekleriz. 
      
         int totalcost=0;
 
         while(que.Count>0)
         {
-             que.TryDequeue(out var node,out var dist);
-             if(visited.Contains((node.Item1, node.Item2)))
+             que.TryDequeue(out int index,out int dist);
+             if(visited.Contains(index))
                 continue;
 
-             visited.Add((node.Item1,node.Item2));
+             visited.Add(index);
              totalcost+=dist;
-            foreach(var item in points)
+            for(int i=0;i<points.Length;i++)
             {
-                if(!visited.Contains((item[0],item[1])))
+                if(!visited.Contains(i))
                 {
-                    int newdist=CalculateManhattan(node.Item1,item[0],node.Item2,item[1]);
-                    que.Enqueue((item[0],item[1]),newdist);
+                    int newdist=CalculateManhattan(points[i][0],points[index][0],points[i][1],points[index][1]);
+                    que.Enqueue(i,newdist);
 
                 }
             }
