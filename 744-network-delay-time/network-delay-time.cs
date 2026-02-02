@@ -1,49 +1,59 @@
 public class Solution {
     public int NetworkDelayTime(int[][] times, int n, int k) {
-        int[] distances=new int[n+1];
-       int result=0;
-        Dictionary<int,List<(int,int)>> graph=new();
-        for(int i=0;i<=n;i++)
+
+        //adjancecy List
+        Dictionary<int,List<List<int>>>graph=new();
+
+        //distances 
+        int[] distance=new int[n+1];
+        for(int i=1;i<=n;i++)
         {
-            distances[i]=int.MaxValue;
-            graph[i]=new List<(int,int)>();
+            graph[i]=new();
+            distance[i]=int.MaxValue;
         }
-        distances[k]=0;
-        foreach(var time in times)
+        distance[k]=0;
+        foreach(var item in times)
         {
-            int from=time[0];
-            int to=time[1];
-            int weight=time[2];
-            graph[from].Add((to,weight));
+            int from=item[0];
+            int to=item[1];
+            int weight=item[2];
+            graph[from].Add(new List<int>(){to,weight});
         }
+
+
         PriorityQueue<int,int> que=new();
         que.Enqueue(k,0);
         while(que.Count>0)
         {
-            que.TryDequeue( out int current,out int currentdist);
-            if(distances[current]<currentdist)
-            continue;
-            foreach((int ngb,int weight) in graph[current])
+            que.TryDequeue(out int node,out int currentweight);
+
+            foreach(var itemarr in graph[node])
             {
-                if(weight+currentdist<distances[ngb])
+                int child=itemarr[0];
+                int childdist=itemarr[1];
+
+                //child node a gidicem maliyetim ne olur
+                //currentweight+childdist
+                //peki buraya daha onceden daha az maliyetle gelmiş miydim cevap distance[child]
+
+                if(currentweight+childdist<distance[child])
                 {
-                    distances[ngb]=weight+currentdist;
-                      que.Enqueue(ngb,distances[ngb]);
-                    
+                    distance[child]=currentweight+childdist;
+                    que.Enqueue(child,distance[child]);
                 }
-              
+                //else daha maliyetliyse buraya gelmem. 
 
             }
-
         }
-   for (int i = 1; i <= n; i++) {
-    if (distances[i] == int.MaxValue)
+      int result=int.MinValue;
+      for(int i=1;i<=n;i++)
+      {
+        if(i==k) continue;
+        if(distance[i]==int.MaxValue)
         return -1;
-    result = Math.Max(result, distances[i]);
-}
+        result=Math.Max(result,distance[i]);
+      }
 return result;
-
-     
         
     }
 }
