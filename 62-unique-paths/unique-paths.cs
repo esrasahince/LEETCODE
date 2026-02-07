@@ -1,17 +1,24 @@
 public class Solution {
     public int UniquePaths(int m, int n) {
-        int[] tempRow=new int[n];
-        for (int i = 0; i < n; i++)
-        {
-            tempRow[i] = 1;
-        }
-        for(int i=m-2;i>=0;i--)
-        {
-            for(int j=tempRow.Length-2;j>=0;j--)
-            {
-                tempRow[j]=tempRow[j+1]+tempRow[j];
-            }
-        }
-        return tempRow[0];
+        Dictionary<(int,int),int> memo=new();
+
+        return DP(m,n,0,0,memo);
+        
+    }
+
+    public int DP(int m,int n,int row,int column,Dictionary<(int,int),int> memo)
+    {
+
+        if(row>=m||column>=n)
+        return 0;
+        if(row==m-1&&column==n-1)
+        return 1;
+        if(memo.ContainsKey((row,column)))
+        return memo[(row,column)];
+
+        int right=DP(m,n,row,column+1,memo);
+        int down=DP(m,n,row+1,column,memo);
+        memo[(row,column)]= right+down;
+        return memo[(row,column)];
     }
 }
