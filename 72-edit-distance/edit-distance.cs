@@ -1,34 +1,37 @@
 public class Solution {
-    public int MinDistance(string word1, string word2) {
-
-        int row=word1.Length;
-        int column=word2.Length;
-        int[,] matrix=new int[row+1,column+1];
-        for(int i=0;i<row+1;i++)
-        {
-            for(int j=0;j<column+1;j++)
+    public int MinDistance(string text1, string text2) {
+        int n = text1.Length;
+            int m = text2.Length;
+            int[,] dp = new int[n + 1, m + 1];
+            for(int i=0;i<n+1;i++)
             {
-                if(i==0||j==0)
-                {
-                    matrix[i,j]=Math.Max(i,j);
-                    continue;
-                }
-                if(word1[i-1]==word2[j-1])
-                {
-                    matrix[i,j]=matrix[i-1,j-1];
+                dp[i, 0] = i;
+            }
+            for (int i = 0; i < m + 1; i++)
+            {
+                dp[0, i] = i;
+            }
 
-                }
-                else
+
+            for (int i = 1; i < n + 1; i++)
+            {
+                for (int j = 1; j < m + 1; j++)
                 {
-                    matrix[i, j] = 1 + Math.Min(matrix[i - 1, j], Math.Min(matrix[i, j - 1], matrix[i - 1, j - 1]));
-               
+                    if (text1[i - 1] == text2[j - 1]) //aynıysa bişey yapma
+                    {
+                        dp[i, j] = dp[i - 1, j - 1];
+                    }
+                    else
+                    {
+                        int add = dp[i, j - 1];
+                        int delete = dp[i - 1, j];
+                        int replace = dp[i - 1, j - 1];
+                        int temp = Math.Min(add, delete);
+                        dp[i, j] = 1 + Math.Min(temp, replace);
+                    }
                 }
             }
-   
-        }
-     
-      return matrix[row,column];
-      
+            return dp[n, m];
         
     }
 }
